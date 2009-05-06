@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item 
+        android:id="@+id/aboutMenuItem" 
+        android:title="@string/aboutMenuItemText"
+        android:icon="@android:drawable/ic_menu_info_details" />
+    <item 
+        android:id="@+id/settingsMenuItem" 
+        android:title="@string/settingsMenuItemText"
+        android:icon="@android:drawable/ic_menu_preferences" />
+    <item 
+        android:id="@+id/favouritesMenuItem" 
+        android:title="@string/favouritesText"
+        android:icon="@android:drawable/ic_menu_gallery" />
+    <item 
+        android:id="@+id/recommendMenuItem" 
+        android:title="@string/recommendMenuItemText"
+        android:icon="@android:drawable/ic_menu_send" />
+    <item 
+        android:id="@+id/closeMenuItem" 
+        android:title="@string/closeText"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel" />        
+</menu>

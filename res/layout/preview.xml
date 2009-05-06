@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <LinearLayout 
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#000000">
+	    <LinearLayout 
+	        android:orientation="vertical"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:padding="3px">
+		    <TextView
+		        android:id="@+id/previewWallpaperTitle"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:textSize="12pt"
+		        android:textStyle="bold" />
+		    <ImageView
+		        android:id="@+id/previewWallpaperImage" 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:minWidth="280px" />
+		    <TextView
+		        android:id="@+id/previewWallpaperText" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:linksClickable="true" />
+		    <LinearLayout
+		        android:orientation="horizontal"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:paddingTop="10px" >
+			    <Button 
+			        android:id="@+id/previewOkButton"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/previewOkButtonText"
+		            style="@style/DefaultButton" />
+			    <Button 
+			        android:id="@+id/previewCancelButton"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/cancelButtonText"
+			        style="@style/DefaultButton" />
+		    </LinearLayout>
+	    </LinearLayout>
+    </LinearLayout>
+</ScrollView>

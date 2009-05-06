@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item 
+        android:id="@+id/galleryAddFavouriteMenuItem" 
+        android:title="@string/addFavouriteText" android:visible="false"/>
+    <item 
+        android:id="@+id/galleryRemoveFavouriteMenuItem" 
+        android:title="@string/removeFavouriteText" android:visible="false"/>        
+</menu>
