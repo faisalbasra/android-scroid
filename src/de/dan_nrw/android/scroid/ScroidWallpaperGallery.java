@@ -132,13 +132,13 @@ public class ScroidWallpaperGallery extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
             	selectedWallpaper = (Wallpaper)wallpaperGalleryAdapter.getItem(position);
             	
-            	new Thread() {
-
+            	new Thread(new Runnable() {
+            		
             		@Override
                     public void run() {
                     	preloadThumbs(wallpaperGalleryAdapter.getWallpapers(), (position + 1), 3);
                     }
-            	}.start();
+            	}).start();
             }
 
 			/* (non-Javadoc)

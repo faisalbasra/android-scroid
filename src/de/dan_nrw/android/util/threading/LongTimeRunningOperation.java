@@ -44,9 +44,9 @@ public abstract class LongTimeRunningOperation {
             }
 	    };
 	    
-	    this.thread = new Thread() {
-
-			/* (non-Javadoc)
+	    this.thread = new Thread(new Runnable() {
+	    	
+	    	/* (non-Javadoc)
              * @see java.lang.Thread#run()
              */
             @Override
@@ -65,7 +65,7 @@ public abstract class LongTimeRunningOperation {
 	            
 	            handler.sendMessage(message);
             }
-	    };
+	    });
 	    
 	    this.thread.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 
