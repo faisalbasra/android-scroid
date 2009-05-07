@@ -2,7 +2,7 @@
 <resources>
     
     <string name="applicationName">Scroid</string>
-<string name="versionInfo">0.9.9 (Beta)</string><string name="galleryUrl">http://thinkko.com/sf_blbr/web/public/jsonlist</string><string name="hint">Please click on a picture to set it as wallpaper</string>
+<string name="versionInfo">0.9.9</string><string name="galleryUrl">http://thinkko.com/sf_blbr/web/public/jsonlist</string><string name="hint">Click on an image to show preview.</string>
 <string name="previewTitle">Preview</string>
 <string name="previewOkButtonText">Use</string>
 <string name="cancelButtonText">Cancel</string>

@@ -6,15 +6,15 @@
     <ImageView 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="5px"
+        android:paddingTop="5dip"
         android:layout_gravity="center"
         android:src="@drawable/banner" />
 	<Gallery 
 	    android:id="@+id/gallery"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10px"
-	    android:spacing="5px" />
+        android:paddingTop="10dip"
+	    android:spacing="5dip" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" 

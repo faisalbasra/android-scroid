@@ -1,48 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:padding="3px" >
-	    <TextView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" 
-	        android:text="@string/rolesAmer"
-	        style="@style/AboutHeader" />
-	    <TextView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="Amer Kawar" />
-	    <TextView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:autoLink="web"
-	        android:text="http://thoughtpickers.blogspot.com" /> 
-	    <TextView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:paddingTop="5px"
-	        android:text="@string/rolesDaniel"
-	        style="@style/AboutHeader" />
-	    <TextView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="Daniel Czerwonk" />
-	    <TextView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:autoLink="web"
-	        android:paddingBottom="5px"
-	        android:text="http://www.dan-nrw.de" />
-	    <Button 
-	        android:id="@+id/aboutCloseButton"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/closeText"
-	        style="@style/DefaultButton" />
-    </LinearLayout>
+    style="@style/DefaultDialogLayout">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:text="@string/rolesAmer"
+        style="@style/AboutHeader" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Amer Kawar" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoLink="web"
+        android:text="http://thoughtpickers.blogspot.com" /> 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dip"
+        android:text="@string/rolesDaniel"
+        style="@style/AboutHeader" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Daniel Czerwonk" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoLink="web"
+        android:paddingBottom="5dip"
+        android:text="http://www.dan-nrw.de" />
+    <Button 
+        android:id="@+id/aboutCloseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/closeText"
+        style="@style/DefaultButton" />
 </LinearLayout>

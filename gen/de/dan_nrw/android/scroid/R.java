@@ -10,33 +10,36 @@ package de.dan_nrw.android.scroid;
 public final class R {
     public static final class attr {
     }
+    public static final class color {
+        public static final int BackgroundColor=0x7f060000;
+    }
     public static final class drawable {
         public static final int banner=0x7f020000;
         public static final int icon=0x7f020001;
     }
     public static final class id {
-        public static final int aboutCloseButton=0x7f070000;
-        public static final int aboutMenuItem=0x7f070011;
-        public static final int closeMenuItem=0x7f070015;
-        public static final int communicationImageView=0x7f070001;
-        public static final int communicationTextView=0x7f070002;
-        public static final int favouriteImageView=0x7f070003;
-        public static final int favouriteTextBox=0x7f070004;
-        public static final int favouritesMenuItem=0x7f070013;
-        public static final int favouritesRemoveFavouriteMenuItem=0x7f07000e;
-        public static final int gallery=0x7f070005;
-        public static final int galleryAddFavouriteMenuItem=0x7f07000f;
-        public static final int galleryRemoveFavouriteMenuItem=0x7f070010;
-        public static final int previewCancelButton=0x7f07000a;
-        public static final int previewOkButton=0x7f070009;
-        public static final int previewWallpaperImage=0x7f070007;
-        public static final int previewWallpaperText=0x7f070008;
-        public static final int previewWallpaperTitle=0x7f070006;
-        public static final int recommendMenuItem=0x7f070014;
-        public static final int settingsCacheSizeTextBox=0x7f07000b;
-        public static final int settingsCancelButton=0x7f07000d;
-        public static final int settingsMenuItem=0x7f070012;
-        public static final int settingsOkButton=0x7f07000c;
+        public static final int aboutCloseButton=0x7f080000;
+        public static final int aboutMenuItem=0x7f080011;
+        public static final int closeMenuItem=0x7f080015;
+        public static final int communicationImageView=0x7f080001;
+        public static final int communicationTextView=0x7f080002;
+        public static final int favouriteImageView=0x7f080003;
+        public static final int favouriteTextBox=0x7f080004;
+        public static final int favouritesMenuItem=0x7f080013;
+        public static final int favouritesRemoveFavouriteMenuItem=0x7f08000e;
+        public static final int gallery=0x7f080005;
+        public static final int galleryAddFavouriteMenuItem=0x7f08000f;
+        public static final int galleryRemoveFavouriteMenuItem=0x7f080010;
+        public static final int previewCancelButton=0x7f08000a;
+        public static final int previewOkButton=0x7f080009;
+        public static final int previewWallpaperImage=0x7f080007;
+        public static final int previewWallpaperText=0x7f080008;
+        public static final int previewWallpaperTitle=0x7f080006;
+        public static final int recommendMenuItem=0x7f080014;
+        public static final int settingsCacheSizeTextBox=0x7f08000b;
+        public static final int settingsCancelButton=0x7f08000d;
+        public static final int settingsMenuItem=0x7f080012;
+        public static final int settingsOkButton=0x7f08000c;
     }
     public static final class layout {
         public static final int about=0x7f030000;
@@ -45,12 +48,11 @@ public final class R {
         public static final int main=0x7f030003;
         public static final int preview=0x7f030004;
         public static final int settings=0x7f030005;
-        public static final int start=0x7f030006;
     }
     public static final class menu {
-        public static final int favourites_context_menu=0x7f060000;
-        public static final int gallery_context_menu=0x7f060001;
-        public static final int main_menu=0x7f060002;
+        public static final int favourites_context_menu=0x7f070000;
+        public static final int gallery_context_menu=0x7f070001;
+        public static final int main_menu=0x7f070002;
     }
     public static final class string {
         public static final int aboutMenuItemText=0x7f040008;
@@ -89,5 +91,6 @@ public final class R {
     public static final class style {
         public static final int AboutHeader=0x7f050001;
         public static final int DefaultButton=0x7f050000;
+        public static final int DefaultDialogLayout=0x7f050002;
     }
 }
