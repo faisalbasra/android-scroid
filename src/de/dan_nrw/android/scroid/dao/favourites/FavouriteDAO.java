@@ -53,7 +53,7 @@ public class FavouriteDAO implements IFavouriteDAO {
 	 * @see de.dan_nrw.android.boobleftboobright.dao.IFavouriteDAO#getFavourites()
 	 */
 	@Override
-	public synchronized Favourite[] getAll() {
+	public Favourite[] getAll() {
 		List<Favourite> favourites = new ArrayList<Favourite>();
 		
 		SQLiteDatabase database = this.getDatabaseInstance();
@@ -89,7 +89,7 @@ public class FavouriteDAO implements IFavouriteDAO {
 	 * @see de.dan_nrw.android.boobleftboobright.dao.IFavouriteDAO#add(java.lang.String)
 	 */
 	@Override
-	public synchronized void add(String id) {
+	public void add(String id) {
 		ContentValues contentValues = new ContentValues();
 		
 		contentValues.put(WALLPAPER_ID, id);
@@ -97,24 +97,42 @@ public class FavouriteDAO implements IFavouriteDAO {
 		
 		SQLiteDatabase database = this.getDatabaseInstance();
 		
-		database.insertOrThrow(TABLE_NAME, null, contentValues);
+		database.beginTransaction();
+
+		try {
+			database.insertOrThrow(TABLE_NAME, null, contentValues);
+			
+			database.setTransactionSuccessful();
+		}
+		finally {
+			database.endTransaction();
+		}
 	}
 	
 	/* (non-Javadoc)
      * @see de.dan_nrw.android.boobleftboobright.dao.IFavouriteDAO#remove(java.lang.String)
      */
     @Override
-    public synchronized void remove(String id) {
+    public void remove(String id) {
     	SQLiteDatabase database = this.getDatabaseInstance();
     	
-    	database.delete(TABLE_NAME, String.format("%s = ?", WALLPAPER_ID), new String[] { id });
+    	database.beginTransaction();
+    	
+    	try {
+    		database.delete(TABLE_NAME, String.format("%s = ?", WALLPAPER_ID), new String[] { id });
+    		
+    		database.setTransactionSuccessful();
+    	}
+    	finally {
+    		database.endTransaction();
+    	}
     }
 
 	/* (non-Javadoc)
      * @see de.dan_nrw.android.boobleftboobright.dao.IFavouriteDAO#isFavourite(java.lang.String)
      */
     @Override
-    public synchronized boolean isFavourite(String id) {
+    public boolean isFavourite(String id) {
     	SQLiteDatabase database = this.getDatabaseInstance();
     	
     	Cursor cursor = null;

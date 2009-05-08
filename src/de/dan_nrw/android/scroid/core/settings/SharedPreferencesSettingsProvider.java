@@ -24,7 +24,7 @@ public class SharedPreferencesSettingsProvider implements ISettingsProvider {
      */
     public SharedPreferencesSettingsProvider(Context context) {
 	    super();
-	    
+	
 	    this.context = context;
     }
 	
@@ -34,7 +34,11 @@ public class SharedPreferencesSettingsProvider implements ISettingsProvider {
 	 */
 	@Override
 	public long getCacheSize() {
-		return this.getSharedPreferences().getLong(CACHE_SIZE_KEY, 2048);
+		if (this.sharedPreferences == null) {
+			this.loadPreferences();
+		}
+		
+		return this.sharedPreferences.getLong(CACHE_SIZE_KEY, 2048);
 	}
 
 	/* (non-Javadoc)
@@ -42,18 +46,24 @@ public class SharedPreferencesSettingsProvider implements ISettingsProvider {
 	 */
 	@Override
 	public synchronized void setCacheSize(long cacheSize) {
-		Editor editor = this.getSharedPreferences().edit();
-		
-		editor.putLong(CACHE_SIZE_KEY, cacheSize);
-		
-		editor.commit();
-	}
-	
-	private SharedPreferences getSharedPreferences() {
 		if (this.sharedPreferences == null) {
-			this.sharedPreferences = this.context.getSharedPreferences(context.getString(R.string.applicationName), 0);
+			this.loadPreferences();
 		}
 		
-		return this.sharedPreferences;
+		synchronized(this.sharedPreferences) {
+			Editor editor = this.sharedPreferences.edit();
+			
+			editor.putLong(CACHE_SIZE_KEY, cacheSize);
+			
+			editor.commit();   
+        }
+	}
+	
+	private synchronized void loadPreferences() {
+		if (this.sharedPreferences != null) {
+			return;
+		}
+		
+		this.sharedPreferences = this.context.getSharedPreferences(context.getString(R.string.applicationName), 0);
 	}
 }

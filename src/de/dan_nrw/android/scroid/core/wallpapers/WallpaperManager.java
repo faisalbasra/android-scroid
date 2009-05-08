@@ -92,13 +92,15 @@ public class WallpaperManager {
 		else {
 			Bitmap bitmap = null;
 			
-			if (this.persistentWallpaperCache.isInCache(uri, fileNamePrefix)) {
-				bitmap = this.persistentWallpaperCache.get(uri, fileNamePrefix);
-			} 
-			else {
-				bitmap = this.wallpaperDAO.downloadImage(uri);
-	        	
-				this.persistentWallpaperCache.put(bitmap, uri, fileNamePrefix);
+			synchronized(this.persistentWallpaperCache) {
+				if (this.persistentWallpaperCache.isInCache(uri, fileNamePrefix)) {
+					bitmap = this.persistentWallpaperCache.get(uri, fileNamePrefix);
+				} 
+				else {
+					bitmap = this.wallpaperDAO.downloadImage(uri);
+		        	
+					this.persistentWallpaperCache.put(bitmap, uri, fileNamePrefix);
+				}
 			}
 			
 			WallpaperCache.put(uri, bitmap);

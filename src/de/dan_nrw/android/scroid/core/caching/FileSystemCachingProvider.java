@@ -49,7 +49,7 @@ public class FileSystemCachingProvider implements IPersistentCache {
 	 * @see de.dan_nrw.android.boobleftboobright.IPersistentCache#isInCache(java.net.URI)
 	 */
 	@Override
-	public synchronized boolean isInCache(URI uri, String prefix) {
+	public boolean isInCache(URI uri, String prefix) {
 		File file = this.context.getFileStreamPath(this.getFileNameForUri(uri, prefix));
         
         return file.exists();
@@ -59,7 +59,7 @@ public class FileSystemCachingProvider implements IPersistentCache {
 	 * @see de.dan_nrw.android.boobleftboobright.IPersistentCache#get(java.net.URI)
 	 */
 	@Override
-	public synchronized Bitmap get(URI uri, String prefix) throws IOException {
+	public Bitmap get(URI uri, String prefix) throws IOException {
 		InputStream fileInputStream = this.context.openFileInput(this.getFileNameForUri(uri, prefix));
 		
 		return BitmapFactory.decodeStream(fileInputStream);
@@ -69,7 +69,7 @@ public class FileSystemCachingProvider implements IPersistentCache {
 	 * @see de.dan_nrw.android.boobleftboobright.IPersistentCache#put(android.graphics.Bitmap, java.net.URI)
 	 */
 	@Override
-	public synchronized void put(Bitmap bitmap, URI uri, String prefix) throws IOException {
+	public void put(Bitmap bitmap, URI uri, String prefix) throws IOException {
 		if (this.isInCache(uri, prefix)) {
 			return;
 		}

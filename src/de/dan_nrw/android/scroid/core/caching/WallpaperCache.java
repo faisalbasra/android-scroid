@@ -41,8 +41,6 @@ public final class WallpaperCache {
 	 * @param bitmap
 	 */
 	public static void put(URI uri, Bitmap bitmap) {
-		synchronized(cache) {
-			cache.put(uri, bitmap);   
-        }
+		cache.put(uri, bitmap);
 	}
 }
