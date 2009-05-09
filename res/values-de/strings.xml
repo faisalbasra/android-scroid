@@ -8,8 +8,8 @@
 <string name="cancelButtonText">Abbrechen</string>
 <string name="closeText">Schließen</string>
 <string name="aboutMenuItemText">Über</string>
-<string name="rolesAmer">Idee, Bilder &amp; Hosting</string>
-<string name="rolesDaniel">Design &amp; Software Entwicklung</string>
+<string name="rolesAmer">Idee &amp; Service-Implementierung</string>
+<string name="rolesDaniel">Software Entwicklung</string>
 <string name="receivingException">Die Hintergrundbild-Liste konnte nicht herunter geladen werden. Bitte Internetverbindung prüfen.</string>
 
 <string name="downloadException">Fehler beim Download. Bitte Internetverbindung prüfen.</string>

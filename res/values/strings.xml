@@ -8,8 +8,8 @@
 <string name="cancelButtonText">Cancel</string>
 <string name="closeText">Close</string>
 <string name="aboutMenuItemText">About</string>
-<string name="rolesAmer">Idea, Wallpapers &amp; Hosting</string>
-<string name="rolesDaniel">Design &amp; Software Development</string>
+<string name="rolesAmer">Idea &amp; Service Implementation</string>
+<string name="rolesDaniel">Software Development</string>
 <string name="receivingException">Error while receiving wallpaper list. Please check your internet connection.</string>
 
 <string name="downloadException">Download failed. Please check your internet connection.</string>
