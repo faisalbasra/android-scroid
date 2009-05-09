@@ -1,8 +1,8 @@
 package de.dan_nrw.android.scroid.core.caching;
 
 import java.net.URI;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import android.graphics.Bitmap;
 
@@ -14,7 +14,7 @@ import android.graphics.Bitmap;
 public final class WallpaperCache {
 
 	// Fields
-	private static Map<URI, Bitmap> cache = new HashMap<URI, Bitmap>();
+	private static Map<URI, Bitmap> cache = new ConcurrentHashMap<URI, Bitmap>();
 	
 	// Methods
 	/**

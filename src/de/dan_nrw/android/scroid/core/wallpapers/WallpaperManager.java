@@ -96,7 +96,8 @@ public class WallpaperManager {
 				if (this.persistentWallpaperCache.isInCache(uri, fileNamePrefix)) {
 					bitmap = this.persistentWallpaperCache.get(uri, fileNamePrefix);
 				} 
-				else {
+				
+				if (bitmap == null) {
 					bitmap = this.wallpaperDAO.downloadImage(uri);
 		        	
 					this.persistentWallpaperCache.put(bitmap, uri, fileNamePrefix);

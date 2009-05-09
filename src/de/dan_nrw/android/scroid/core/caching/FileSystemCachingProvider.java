@@ -60,9 +60,23 @@ public class FileSystemCachingProvider implements IPersistentCache {
 	 */
 	@Override
 	public Bitmap get(URI uri, String prefix) throws IOException {
-		InputStream fileInputStream = this.context.openFileInput(this.getFileNameForUri(uri, prefix));
+		InputStream fileInputStream = null;
 		
-		return BitmapFactory.decodeStream(fileInputStream);
+		try {
+			fileInputStream = this.context.openFileInput(this.getFileNameForUri(uri, prefix));
+			
+			return BitmapFactory.decodeStream(fileInputStream);
+		}
+		finally {
+			if (fileInputStream != null) {
+				try {
+					fileInputStream.close();	
+				}
+				catch (IOException ex) {
+					// nothing to do - exception would hide original exception thrown in try block 
+				}	
+			}
+		}
 	}
 
 	/* (non-Javadoc)
@@ -74,9 +88,23 @@ public class FileSystemCachingProvider implements IPersistentCache {
 			return;
 		}
 		
-		OutputStream stream = this.context.openFileOutput(this.getFileNameForUri(uri, prefix), Context.MODE_PRIVATE); 
+		OutputStream stream = null;
 		
-		bitmap.compress(CompressFormat.JPEG, 100, stream);
+		try {
+			stream = this.context.openFileOutput(this.getFileNameForUri(uri, prefix), Context.MODE_PRIVATE); 
+			
+			bitmap.compress(CompressFormat.JPEG, 100, stream);	
+		}
+		finally {
+			if (stream != null) {
+				try {
+					stream.close();	
+				}
+				catch (IOException ex) {
+					// nothing to do - exception would hide original exception thrown in try block
+				}	
+			}
+		}
 		
 		long cacheSize = this.settingsProvider.getCacheSize() * 1024; 
 		
@@ -136,7 +164,7 @@ public class FileSystemCachingProvider implements IPersistentCache {
 			remaining -= file.length();
 			
 			if (!this.context.deleteFile(file.getName())) {
-				throw new IOException("Can not delete file!");
+				throw new IOException(String.format("Can not delete file: %s!", file.getName()));
 			}
 		}
 	}
