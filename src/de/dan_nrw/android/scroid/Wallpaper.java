@@ -1,3 +1,21 @@
+/* 
+ * Android Scroid - Screen Android
+ * 
+ * Copyright (C) 2009  Daniel Czerwonk <d.czerwonk@googlemail.com>
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package de.dan_nrw.android.scroid;
 
 import java.net.URI;
@@ -9,15 +27,14 @@ import java.net.URI;
  */
 public class Wallpaper {
 
-	// Fields
 	private final String id;
 	private final String title;
 	private final URI thumbUrl;
 	private final URI previewUrl;
 	private final URI wallpaperUrl;
 	private final String text;
+
 	
-	// Constructors
     /**
      * Method for creating a new instance of Wallpaper
      * @param id
@@ -38,7 +55,7 @@ public class Wallpaper {
 	    this.text = text;
     }
 	
-	// Methods
+    
     /**
      * @return Unique id of wallpaper
      */

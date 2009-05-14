@@ -1,3 +1,21 @@
+/* 
+ * Android Scroid - Screen Android
+ * 
+ * Copyright (C) 2009  Daniel Czerwonk <d.czerwonk@googlemail.com>
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package de.dan_nrw.android.scroid.core.settings;
 
 import android.content.Context;
@@ -13,12 +31,11 @@ import de.dan_nrw.android.scroid.R;
  */
 public class SharedPreferencesSettingsProvider implements ISettingsProvider {
 
-	// Fields
 	private final Context context;
 	private SharedPreferences sharedPreferences;
 	private static final String CACHE_SIZE_KEY = "DiskCacheSize";
+
 	
-	// Constructors
 	/**
      * Method for creating a new instance of SharedPreferencesSettingsProvider
      */
@@ -28,7 +45,7 @@ public class SharedPreferencesSettingsProvider implements ISettingsProvider {
 	    this.context = context;
     }
 	
-	// Methods
+    
 	/* (non-Javadoc)
 	 * @see de.dan_nrw.android.boobleftboobright.ISettingsProvider#getCacheSize()
 	 */

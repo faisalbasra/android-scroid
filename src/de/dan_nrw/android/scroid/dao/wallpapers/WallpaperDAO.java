@@ -1,3 +1,21 @@
+/* 
+ * Android Scroid - Screen Android
+ * 
+ * Copyright (C) 2009  Daniel Czerwonk <d.czerwonk@googlemail.com>
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package de.dan_nrw.android.scroid.dao.wallpapers;
 
 import java.io.IOException;
@@ -28,10 +46,9 @@ import de.dan_nrw.android.util.net.TextFileHttpResponseHandler;
  */
 public class WallpaperDAO implements IWallpaperDAO {
 
-	// Fields
 	private static final int MAX_DOWNLOAD_RETRIES = 10;
+
 	
-	// Constructors
 	/**
 	 * Method for creating instance of WallpaperDAO
 	 * @param clientHelper
@@ -40,7 +57,7 @@ public class WallpaperDAO implements IWallpaperDAO {
 	    super();
     }
 	
-	// Methods
+
 	/* (non-Javadoc)
 	 * @see de.dan_nrw.android.scroid.dao.wallpapers.IWallpaperDAO#getAvailableWallpapers(android.content.Context)
 	 */
