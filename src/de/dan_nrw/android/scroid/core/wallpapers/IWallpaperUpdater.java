@@ -30,7 +30,7 @@ import android.graphics.Bitmap;
 public interface IWallpaperUpdater {
 
 	/**
-	 * Method for setting new system wallpaper
+	 * Sets new system wallpaper.
 	 * @param wallpaper Wallpaper to set as new system wallpaper
 	 * @throws IOException
 	 */

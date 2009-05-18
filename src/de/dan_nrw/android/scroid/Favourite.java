@@ -34,11 +34,11 @@ public class Favourite {
 
 	
 	/**
-     * Method for creating a new instance of Favourite
-     * @param wallpaperId
-     * @param creationDate
-     */
-    public Favourite(String wallpaperId, Date creationDate) {
+	 * Creates a new instance of Favourite.
+	 * @param wallpaperId
+	 * @param creationDate
+	 */
+	public Favourite(String wallpaperId, Date creationDate) {
 	    super();
 	    
 	    this.wallpaperId = wallpaperId;

@@ -28,14 +28,14 @@ public class WallpaperListReceivingException extends Exception {
 
 	
 	/**
-	 * Method for creating a new instance of WallpaperListReceivingException
+	 * Creates a new instance of WallpaperListReceivingException.
 	 */
 	public WallpaperListReceivingException() {
 	    super();
     }
 
 	/**
-	 * Method for creating a new instance of WallpaperListReceivingException
+	 * Creates a new instance of WallpaperListReceivingException.
 	 * @param detailMessage
 	 * @param throwable
 	 */
@@ -44,7 +44,7 @@ public class WallpaperListReceivingException extends Exception {
     }
 
 	/**
-	 * Method for creating a new instance of WallpaperListReceivingException
+	 * Creates a new instance of WallpaperListReceivingException.
 	 * @param detailMessage
 	 */
 	public WallpaperListReceivingException(String detailMessage) {
@@ -52,7 +52,7 @@ public class WallpaperListReceivingException extends Exception {
     }
 
 	/**
-	 * Method for creating a new instance of WallpaperListReceivingException
+	 * Creates a new instance of WallpaperListReceivingException.
 	 * @param throwable
 	 */
 	public WallpaperListReceivingException(Throwable throwable) {

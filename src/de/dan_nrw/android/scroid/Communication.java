@@ -30,7 +30,7 @@ public class Communication {
 
 	
 	/**
-	 * Method for creating a new instance of Communication
+	 * Creates a new instance of Communication.
 	 * @param type
 	 * @param value
 	 */
@@ -56,6 +56,7 @@ public class Communication {
 	    return value;
     }
 
+    
 	public enum Type {
 		Mobile,
 		Email

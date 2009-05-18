@@ -37,9 +37,10 @@ public class SharedPreferencesSettingsProvider implements ISettingsProvider {
 
 	
 	/**
-     * Method for creating a new instance of SharedPreferencesSettingsProvider
-     */
-    public SharedPreferencesSettingsProvider(Context context) {
+	 * Creates a new instance of SharedPreferencesSettingsProvider.
+	 * @param context
+	 */
+	public SharedPreferencesSettingsProvider(Context context) {
 	    super();
 	
 	    this.context = context;

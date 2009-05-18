@@ -31,7 +31,7 @@ import de.dan_nrw.android.scroid.Wallpaper;
 public interface IWallpaperParser {
 
 	/**
-	 * Method for parsing input string
+	 * Parses input string for wallpaper
 	 * @param data String containing wallpaper information 
 	 * @return List of parsed wallpapers
 	 * @throws ParseException

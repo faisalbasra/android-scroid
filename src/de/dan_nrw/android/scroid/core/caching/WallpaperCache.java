@@ -35,7 +35,7 @@ public final class WallpaperCache {
 
 	
 	/**
-	 * Method for checking if image is in cache
+	 * Checks if image is in cache.
 	 * @param uri URI to image (key)
 	 * @return true (cached) / false (not cached)
 	 */
@@ -44,7 +44,7 @@ public final class WallpaperCache {
 	}
 	
 	/**
-	 * Method for getting image from cache
+	 * Gets image from cache.
 	 * @param uri URI to image (key)
 	 * @return
 	 */
@@ -53,7 +53,7 @@ public final class WallpaperCache {
 	}
 	
 	/**
-	 * Method for adding image to cache 
+	 * Adds image to cache. 
 	 * @param uri URI to image (key)
 	 * @param bitmap
 	 */

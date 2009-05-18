@@ -46,7 +46,7 @@ public class FavouriteDAO implements IFavouriteDAO {
 
 	
 	/**
-	 * Method for creating a new instance of FavouriteDAO
+	 * Creates a new instance of FavouriteDAO.
 	 * @param context
 	 */
 	public FavouriteDAO(Context context) {

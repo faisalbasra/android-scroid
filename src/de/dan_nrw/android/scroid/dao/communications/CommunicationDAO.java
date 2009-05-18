@@ -41,7 +41,7 @@ public class CommunicationDAO implements ICommunicationDAO {
 
 	
 	/**
-	 * Method for creating a new instance of CommunicationDAO
+	 * Creates a new instance of CommunicationDAO.
 	 * @param context
 	 */
 	public CommunicationDAO(Context context) {

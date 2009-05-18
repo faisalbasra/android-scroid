@@ -27,7 +27,8 @@ import android.os.Message;
 
 /**
  * @author Daniel Czerwonk
- *
+ * @deprecated This class will be replaced by AsyncTask (which is part of Android SDK 1.5)
+ * @see android.os.AsyncTask 
  */
 public abstract class LongTimeRunningOperation {
 
@@ -37,7 +38,7 @@ public abstract class LongTimeRunningOperation {
 
 	
 	/**
-	 * Method for creating a new instance of LongTimeRunningOperation
+	 * Creates a new instance of LongTimeRunningOperation.
 	 * @param progressDialog
 	 */
 	public LongTimeRunningOperation(final Dialog progressDialog) {

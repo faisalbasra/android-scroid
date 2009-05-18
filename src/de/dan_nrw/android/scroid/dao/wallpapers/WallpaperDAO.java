@@ -50,8 +50,7 @@ public class WallpaperDAO implements IWallpaperDAO {
 
 	
 	/**
-	 * Method for creating instance of WallpaperDAO
-	 * @param clientHelper
+	 * Creates a new instance of WallpaperDAO.
 	 */
 	public WallpaperDAO() {
 	    super();
@@ -91,7 +90,7 @@ public class WallpaperDAO implements IWallpaperDAO {
     }
     
     /**
-     * Method for downlaoding file
+     * Downlaods a file
      * @param <T> Type of return
      * @param uri URI of file to download
      * @param responseHandler Response handler parsing the response

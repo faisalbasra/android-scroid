@@ -30,7 +30,7 @@ import de.dan_nrw.android.scroid.Communication;
 public interface ICommunicationDAO {
 
 	/**
-	 * Method for getting communications
+	 * Gets communications for person specified by personUri.
 	 * @param personUri Content-URI of owning person
 	 * @return Array of found communications
 	 */

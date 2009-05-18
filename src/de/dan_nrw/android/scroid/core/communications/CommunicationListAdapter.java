@@ -40,7 +40,7 @@ final class CommunicationListAdapter extends BaseAdapter {
 
 	
 	/**
-	 * Method for creating a new instance of CommunicationListAdapter
+	 * Creates a new instance of CommunicationListAdapter.
 	 * @param communications
 	 * @param context
 	 */

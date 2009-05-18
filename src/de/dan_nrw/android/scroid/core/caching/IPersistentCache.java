@@ -31,7 +31,7 @@ import android.graphics.Bitmap;
 public interface IPersistentCache {
 
 	/**
-	 * Method for checking if Image is already in cache
+	 * Checks if image is already in cache.
 	 * @param uri URI of image (key)
 	 * @param prefix Prefix used for creating unique filenames
 	 * @return true (cached) / false (not cached) 
@@ -39,7 +39,7 @@ public interface IPersistentCache {
 	boolean isInCache(URI uri, String prefix);
 	
 	/**
-	 * Method for getting image from cache
+	 * Gets image from cache.
 	 * @param uri URI of image (key)
 	 * @param prefix Prefix used for creating unique filenames
 	 * @return Image loaded from cache
@@ -48,7 +48,7 @@ public interface IPersistentCache {
 	Bitmap get(URI uri, String prefix) throws IOException;
 	
 	/**
-	 * Method for adding image to cache
+	 * Adds image to cache.
 	 * @param bitmap Image to cache
 	 * @param uri URI of image (key)
 	 * @param prefix Prefix used for creating unique filenames

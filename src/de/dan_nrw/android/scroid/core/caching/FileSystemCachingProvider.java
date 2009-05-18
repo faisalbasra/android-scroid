@@ -50,7 +50,7 @@ public class FileSystemCachingProvider implements IPersistentCache {
 
 	
 	/**
-	 * Method for creating a new instance of FileSystemCachingProvider
+	 * Creates a new instance of FileSystemCachingProvider.
 	 * @param context
 	 * @param settingsProvider
 	 */

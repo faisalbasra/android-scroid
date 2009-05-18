@@ -36,7 +36,7 @@ import android.graphics.Bitmap;
 public interface IWallpaperDAO {
 
 	/**
-	 * Method for getting all available wallpapers
+	 * Gets all available wallpapers.
 	 * @param context
 	 * @return Array of all available wallpapers
 	 * @throws WallpaperListReceivingException
@@ -44,7 +44,7 @@ public interface IWallpaperDAO {
 	Wallpaper[] getAvailableWallpapers(Context context) throws WallpaperListReceivingException;
 	
 	/**
-	 * Method for downloading image
+	 * Downloads an image specified by uri.
 	 * @param uri URI to image
 	 * @return Image downloaded from uri
 	 * @throws ClientProtocolException

@@ -36,7 +36,7 @@ public class Wallpaper {
 
 	
     /**
-     * Method for creating a new instance of Wallpaper
+     * Creates a new instance of Wallpaper.
      * @param id
      * @param title
      * @param thumbUrl

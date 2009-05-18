@@ -48,12 +48,12 @@ public class FavouriteListAdapter extends BaseAdapter {
 
 	
 	/**
-     * Method for creating a new instance of FavouriteListAdapter
-     * @param favourites
-     * @param context
-     * @param wallpaperManager
-     */
-    public FavouriteListAdapter(List<Favourite> favourites, Context context, WallpaperManager wallpaperManager) {
+	 * Creates a new instance of FavouriteListAdapter.
+	 * @param favourites
+	 * @param context
+	 * @param wallpaperManager
+	 */
+	public FavouriteListAdapter(List<Favourite> favourites, Context context, WallpaperManager wallpaperManager) {
 	    super();
 	    
 	    this.favourites = favourites;

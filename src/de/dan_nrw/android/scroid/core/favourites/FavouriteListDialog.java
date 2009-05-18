@@ -20,6 +20,7 @@ package de.dan_nrw.android.scroid.core.favourites;
 
 import java.util.List;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -35,14 +36,13 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import de.dan_nrw.android.scroid.Favourite;
 import de.dan_nrw.android.scroid.R;
 import de.dan_nrw.android.scroid.core.wallpapers.WallpaperManager;
-import de.dan_nrw.android.util.ui.BaseDialog;
 
 
 /**
  * @author Daniel Czerwonk
  *
  */
-public class FavouriteListDialog extends BaseDialog {
+public class FavouriteListDialog extends Dialog {
 
 	private final List<Favourite> favourites;
 	private final WallpaperManager wallpaperManager;
@@ -53,10 +53,14 @@ public class FavouriteListDialog extends BaseDialog {
 	
 	
 	/**
-     * Method for creating a new instance of FavouriteListDialog
-     * @param context
-     */
-    public FavouriteListDialog(Context context, List<Favourite> favourites, WallpaperManager wallpaperManager, 
+	 * Creates a new instance of FavouriteListDialog.
+	 * @param context
+	 * @param favourites
+	 * @param wallpaperManager
+	 * @param removeHandler
+	 * @param showHandler
+	 */
+	public FavouriteListDialog(Context context, List<Favourite> favourites, WallpaperManager wallpaperManager, 
     						   FavouriteActionHandler removeHandler, FavouriteActionHandler showHandler) {
 	    super(context);
 	    

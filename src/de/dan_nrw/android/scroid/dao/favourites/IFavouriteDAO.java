@@ -28,25 +28,25 @@ import de.dan_nrw.android.scroid.Favourite;
 public interface IFavouriteDAO {
 
 	/**
-	 * Method for getting all favourites
+	 * Gets all favourites.
 	 * @return Array of all favourites
 	 */
 	Favourite[] getAll();
 	
 	/**
-	 * Method for adding wallpaper as favourite
+	 * Adds wallpaper to favourites.
 	 * @param id Id of wallpaper
 	 */
 	void add(String id);
 	
 	/**
-	 * Method for removing favourite
+	 * Removes wallpaper from favourites.
 	 * @param id Id of wallpaper
 	 */
 	void remove(String id);
 	
 	/**
-	 * Method for checking if wallpaper is favourite
+	 * Checks if wallpaper is a favourite.
 	 * @param id Id of wallpaper
 	 * @return true (yes) / false (no)
 	 */

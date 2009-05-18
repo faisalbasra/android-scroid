@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -67,13 +68,12 @@ import de.dan_nrw.android.scroid.dao.wallpapers.WallpaperDAO;
 import de.dan_nrw.android.scroid.dao.wallpapers.WallpaperListReceivingException;
 import de.dan_nrw.android.util.threading.LongTimeRunningOperation;
 import de.dan_nrw.android.util.ui.AlertDialogFactory;
-import de.dan_nrw.android.util.ui.BaseActivity;
 
 /**
  * @author Daniel Czerwonk
  *
  */
-public class ScroidWallpaperGallery extends BaseActivity {
+public class ScroidWallpaperGallery extends Activity {
 
 	private static WallpaperGalleryAdapter wallpaperGalleryAdapter;
 	private final WallpaperManager wallpaperManager;
@@ -88,7 +88,7 @@ public class ScroidWallpaperGallery extends BaseActivity {
 
 	
     /**
-     * Method for creating a new instance of BlBrPhotoGallary
+     * Creates a new instance of ScroidWallpaperGallery.
      */
     public ScroidWallpaperGallery() {
 	    super();
@@ -111,7 +111,7 @@ public class ScroidWallpaperGallery extends BaseActivity {
         this.setContentView(R.layout.main);
         
         // initializing gallery
-        Gallery gallery = this.findView(R.id.gallery);
+        Gallery gallery = (Gallery)this.findViewById(R.id.gallery);
         
         this.initGallery(gallery);
         
@@ -414,10 +414,12 @@ public class ScroidWallpaperGallery extends BaseActivity {
     	private final Gallery gallery;
     	
 		/**
-         * Method for creating a new instance of GetWallpaperListTask
-         * @param progressDialog
-         */
-        public FillGalleryTask(Dialog progressDialog, Context context, Gallery gallery) {
+		 * Creates a new instance of FillGalleryTask.
+		 * @param progressDialog
+		 * @param context
+		 * @param gallery
+		 */
+		public FillGalleryTask(Dialog progressDialog, Context context, Gallery gallery) {
 	        super(progressDialog);
 	        
 	        this.context = context;
@@ -483,14 +485,14 @@ public class ScroidWallpaperGallery extends BaseActivity {
     	private final WallpaperManager wallpaperManager;
     	
 		/**
-         * Method for creating a new instance of ShowPreviewDialogTask
-         * @param progressDialog
-         * @param context
-         * @param wallpaper
-         * @param wallpaperUpdater
-         * @param wallpaperManager
-         */
-        public ShowPreviewDialogTask(Dialog progressDialog, Context context, Wallpaper wallpaper, IWallpaperUpdater wallpaperUpdater, WallpaperManager wallpaperManager) {
+		 * Creates a new instance of ShowPreviewDialogTask.
+		 * @param progressDialog
+		 * @param context
+		 * @param wallpaper
+		 * @param wallpaperUpdater
+		 * @param wallpaperManager
+		 */
+		public ShowPreviewDialogTask(Dialog progressDialog, Context context, Wallpaper wallpaper, IWallpaperUpdater wallpaperUpdater, WallpaperManager wallpaperManager) {
 	        super(progressDialog);
 	        
 	        this.context = context;
@@ -562,8 +564,8 @@ public class ScroidWallpaperGallery extends BaseActivity {
     	private final IWallpaperUpdater wallpaperUpdater;
     	private final WallpaperManager wallpaperManager;
 
-		/**
-         * Method for creating a new instance of DownloadAndSetWallpaperTask
+        /**
+         * Creates a new instance of DownloadAndSetWallpaperTask.
          * @param progressDialog
          * @param context
          * @param wallpaper
@@ -572,6 +574,7 @@ public class ScroidWallpaperGallery extends BaseActivity {
          */
         public DownloadAndSetWallpaperTask(Dialog progressDialog, Context context, Wallpaper wallpaper, IWallpaperUpdater wallpaperUpdater, WallpaperManager wallpaperManager) {
 	        super(progressDialog);
+	        
 	        this.context = context;
 	        this.wallpaper = wallpaper;
 	        this.wallpaperUpdater = wallpaperUpdater;

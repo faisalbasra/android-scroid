@@ -45,7 +45,7 @@ public class WallpaperGalleryAdapter extends BaseAdapter {
 	
 
 	/**
-	 * Method for creating a new instance of WallpaperGalleryAdapter
+	 * Creates a new instance of WallpaperGalleryAdapter.
 	 * @param context
 	 * @param wallpapers
 	 * @param wallpaperManager

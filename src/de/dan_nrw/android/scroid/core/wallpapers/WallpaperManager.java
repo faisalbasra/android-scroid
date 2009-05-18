@@ -44,8 +44,9 @@ public class WallpaperManager {
 	
 	
 	/**
-	 * Method for creating a new instance of WallpaperManager
+	 * Creates a new instance of WallpaperManager.
 	 * @param wallpaperDAO
+	 * @param persistentWallpaperCache
 	 */
 	public WallpaperManager(IWallpaperDAO wallpaperDAO, IPersistentCache persistentWallpaperCache) {
 	    super();
@@ -56,7 +57,7 @@ public class WallpaperManager {
 	
     
 	/**
-     * Method for getting list of all available wallpapers
+     * Gets list of all available wallpapers.
      * @param context
      * @return List of available wallpapers
      * @throws WallpaperListReceivingException
@@ -66,7 +67,7 @@ public class WallpaperManager {
     }
     
     /**
-     * Method for getting thumb image for wallpaper
+     * Gets thumb image for wallpaper.
      * @param wallpaper Wallpaper containing URI of image
      * @return Image (read out from cache or downloaded)
      * @throws ClientProtocolException
@@ -77,7 +78,7 @@ public class WallpaperManager {
     }
     
     /**
-     * Method for getting preivew image for wallpaper
+     * Gets preivew image for wallpaper.
      * @param wallpaper Wallpaper containing URI of image
      * @return Image (read out from cache or downloaded)
      * @throws ClientProtocolException
@@ -88,7 +89,7 @@ public class WallpaperManager {
     }
     
     /**
-     * Method for getting image for wallpaper
+     * Gets image for wallpaper.
      * @param wallpaper Wallpaper containing URI of image
      * @return Image (read out from cache or downloaded)
      * @throws ClientProtocolException

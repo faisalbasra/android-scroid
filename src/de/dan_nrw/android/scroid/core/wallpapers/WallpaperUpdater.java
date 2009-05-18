@@ -34,7 +34,7 @@ public class WallpaperUpdater implements IWallpaperUpdater {
 
 	
 	/**
-	 * Method for creating a new instance of WallpaperUpdater
+	 * Creates a new instance of WallpaperUpdater.
 	 * @param context
 	 */
 	public WallpaperUpdater(Context context) {

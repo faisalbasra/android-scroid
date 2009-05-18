@@ -18,6 +18,7 @@
  */
 package de.dan_nrw.android.scroid.core.communications;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -27,21 +28,20 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import de.dan_nrw.android.scroid.Communication;
 import de.dan_nrw.android.scroid.R;
-import de.dan_nrw.android.util.ui.BaseDialog;
 
 
 /**
  * @author Daniel Czerwonk
  *
  */
-public class CommunicationChooseDialog extends BaseDialog {
+public class CommunicationChooseDialog extends Dialog {
 
 	private final Communication[] communications;
 	private final CommunicationChosenListener listener;
 
 	
 	/**
-	 * Method for creating a new instance of CommunicationChooseDialog
+	 * Creates a new instance of CommunicationChooseDialog.
 	 * @param context
 	 * @param communications
 	 * @param listener

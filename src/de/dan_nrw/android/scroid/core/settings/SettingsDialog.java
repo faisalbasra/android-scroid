@@ -18,6 +18,7 @@
  */
 package de.dan_nrw.android.scroid.core.settings;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -25,20 +26,19 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import de.dan_nrw.android.scroid.R;
-import de.dan_nrw.android.util.ui.BaseDialog;
 
 
 /**
  * @author Daniel Czerwonk
  *
  */
-public class SettingsDialog extends BaseDialog {
+public class SettingsDialog extends Dialog {
 
 	private long currentCacheSize;
 
 	
 	/**
-	 * Method for creating a new instance of SettingsDialog
+	 * Creates a new instance of SettingsDialog.
 	 * @param context
 	 * @param currentCacheSize
 	 */
@@ -60,7 +60,7 @@ public class SettingsDialog extends BaseDialog {
 	    
 	    this.setTitle(R.string.settingsTitle);
 	    
-	    Button okButton = this.findView(R.id.settingsOkButton);
+	    Button okButton = (Button)this.findViewById(R.id.settingsOkButton);
 	    
 	    okButton.setOnClickListener(new View.OnClickListener() {
 
@@ -73,7 +73,7 @@ public class SettingsDialog extends BaseDialog {
             }
 	    });
 	    
-	    Button cancelButton = this.findView(R.id.settingsCancelButton);
+	    Button cancelButton = (Button)this.findViewById(R.id.settingsCancelButton);
 	    
 	    cancelButton.setOnClickListener(new View.OnClickListener() {
 
@@ -86,13 +86,13 @@ public class SettingsDialog extends BaseDialog {
             }
 	    });
 	    
-	    EditText cacheSizeTextBox = this.findView(R.id.settingsCacheSizeTextBox);
+	    EditText cacheSizeTextBox = (EditText)this.findViewById(R.id.settingsCacheSizeTextBox);
 	    
 	    cacheSizeTextBox.setText(Long.toString(this.currentCacheSize));
     }
     
     public long getCacheSize() {
-    	EditText cacheSizeTextBox = this.findView(R.id.settingsCacheSizeTextBox);
+    	EditText cacheSizeTextBox = (EditText)this.findViewById(R.id.settingsCacheSizeTextBox);
     	
     	if (cacheSizeTextBox.getText().toString().equals("")) {
     		return 0;

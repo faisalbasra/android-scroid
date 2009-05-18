@@ -29,11 +29,12 @@ public class HttpErrorException extends IOException {
 
     private static final long serialVersionUID = 1L;
 
+    
 	/**
-     * Method for creating a new instance of HttpErrorException
-     * @param detailMessage
-     */
-    public HttpErrorException(int errorCode) {
+	 * Creates a new instance of HttpErrorException.
+	 * @param errorCode
+	 */
+	public HttpErrorException(int errorCode) {
 	    super(Integer.toString(errorCode));
     }
 }
