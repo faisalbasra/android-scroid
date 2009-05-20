@@ -46,6 +46,15 @@ import de.dan_nrw.android.scroid.Wallpaper;
  */
 final class XmlWallpaperParser implements IWallpaperParser {
 
+
+	/**
+     * Creates a new instance of XmlWallpaperParser.
+     */
+    XmlWallpaperParser() {
+	    super();
+    }
+
+    
 	/* (non-Javadoc)
 	 * @see de.dan_nrw.boobleftboobright.IWallpaperParser#parse(java.lang.String)
 	 */

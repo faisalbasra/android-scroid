@@ -34,8 +34,16 @@ import de.dan_nrw.android.scroid.Wallpaper;
  * @author Daniel Czerwonk
  *
  */
-final class JsonWallpaperParser implements IWallpaperParser {
+public final class JsonWallpaperParser implements IWallpaperParser {
 
+	/**
+     * Creates a new instance of JsonWallpaperParser.
+     */
+    JsonWallpaperParser() {
+	    super();
+    }
+
+    
 	/* (non-Javadoc)
 	 * @see de.dan_nrw.boobleftboobright.IWallpaperParser#parse(java.lang.String)
 	 */

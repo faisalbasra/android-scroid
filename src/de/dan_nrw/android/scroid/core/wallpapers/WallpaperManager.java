@@ -23,6 +23,8 @@ import java.net.URI;
 
 import org.apache.http.client.ClientProtocolException;
 
+import com.google.inject.Inject;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 
@@ -48,6 +50,7 @@ public class WallpaperManager {
 	 * @param wallpaperDAO
 	 * @param persistentWallpaperCache
 	 */
+	@Inject
 	public WallpaperManager(IWallpaperDAO wallpaperDAO, IPersistentCache persistentWallpaperCache) {
 	    super();
 	    

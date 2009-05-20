@@ -24,6 +24,9 @@ import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -47,24 +50,18 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 import de.dan_nrw.android.scroid.R;
-import de.dan_nrw.android.scroid.core.caching.FileSystemCachingProvider;
 import de.dan_nrw.android.scroid.core.communications.CommunicationChooseDialog;
 import de.dan_nrw.android.scroid.core.communications.CommunicationChooseDialog.CommunicationChosenListener;
 import de.dan_nrw.android.scroid.core.favourites.FavouriteListDialog;
 import de.dan_nrw.android.scroid.core.favourites.FavouriteListDialog.FavouriteActionHandler;
 import de.dan_nrw.android.scroid.core.settings.ISettingsProvider;
 import de.dan_nrw.android.scroid.core.settings.SettingsDialog;
-import de.dan_nrw.android.scroid.core.settings.SharedPreferencesSettingsProvider;
 import de.dan_nrw.android.scroid.core.wallpapers.IWallpaperUpdater;
 import de.dan_nrw.android.scroid.core.wallpapers.WallpaperGalleryAdapter;
 import de.dan_nrw.android.scroid.core.wallpapers.WallpaperManager;
 import de.dan_nrw.android.scroid.core.wallpapers.WallpaperPreviewDialog;
-import de.dan_nrw.android.scroid.core.wallpapers.WallpaperUpdater;
-import de.dan_nrw.android.scroid.dao.communications.CommunicationDAO;
 import de.dan_nrw.android.scroid.dao.communications.ICommunicationDAO;
-import de.dan_nrw.android.scroid.dao.favourites.FavouriteDAO;
 import de.dan_nrw.android.scroid.dao.favourites.IFavouriteDAO;
-import de.dan_nrw.android.scroid.dao.wallpapers.WallpaperDAO;
 import de.dan_nrw.android.scroid.dao.wallpapers.WallpaperListReceivingException;
 import de.dan_nrw.android.util.threading.LongTimeRunningOperation;
 import de.dan_nrw.android.util.ui.AlertDialogFactory;
@@ -73,6 +70,7 @@ import de.dan_nrw.android.util.ui.AlertDialogFactory;
  * @author Daniel Czerwonk
  *
  */
+@SuppressWarnings("deprecation")	// TODO: should be removed when LongTimeRunningOperation is no longer used
 public class ScroidWallpaperGallery extends Activity {
 
 	private static WallpaperGalleryAdapter wallpaperGalleryAdapter;
@@ -93,11 +91,14 @@ public class ScroidWallpaperGallery extends Activity {
     public ScroidWallpaperGallery() {
 	    super();
 	    
-	    this.settingsProvider = new SharedPreferencesSettingsProvider(this);
-	    this.wallpaperManager = new WallpaperManager(new WallpaperDAO(), new FileSystemCachingProvider(this, this.settingsProvider));
-	    this.wallpaperUpdater = new WallpaperUpdater(this);
-	    this.communicationDAO = new CommunicationDAO(this);
-	    this.favouriteDAO = new FavouriteDAO(this);
+	    Injector injector = Guice.createInjector(new ProductiveModule(this));
+	    
+	    this.settingsProvider = injector.getInstance(ISettingsProvider.class);
+	    this.wallpaperManager = injector.getInstance(WallpaperManager.class);
+	    this.wallpaperUpdater = injector.getInstance(IWallpaperUpdater.class);
+	    this.communicationDAO = injector.getInstance(ICommunicationDAO.class);
+	    this.favouriteDAO = injector.getInstance(IFavouriteDAO.class);
+	    
 	    this.preloadedList = new ArrayList<Integer>();
     }
     

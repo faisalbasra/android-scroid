@@ -21,6 +21,8 @@ package de.dan_nrw.android.scroid.dao.communications;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.inject.Inject;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -35,7 +37,7 @@ import de.dan_nrw.android.scroid.Communication;
  * @author Daniel Czerwonk
  *
  */
-public class CommunicationDAO implements ICommunicationDAO {
+public final class CommunicationDAO implements ICommunicationDAO {
 	
 	private final Context context;
 
@@ -44,7 +46,8 @@ public class CommunicationDAO implements ICommunicationDAO {
 	 * Creates a new instance of CommunicationDAO.
 	 * @param context
 	 */
-	public CommunicationDAO(Context context) {
+	@Inject
+	CommunicationDAO(Context context) {
 	    super();
 	    
 	    this.context = context;

@@ -31,12 +31,14 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 
+import com.google.inject.Inject;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 
 import de.dan_nrw.android.scroid.R;
 import de.dan_nrw.android.scroid.Wallpaper;
-import de.dan_nrw.android.scroid.dao.wallpapers.parsing.WallpaperParserFactory;
+import de.dan_nrw.android.scroid.dao.wallpapers.parsing.IWallpaperParser;
 import de.dan_nrw.android.util.net.BitmapHttpResponseHandler;
 import de.dan_nrw.android.util.net.TextFileHttpResponseHandler;
 
@@ -44,16 +46,21 @@ import de.dan_nrw.android.util.net.TextFileHttpResponseHandler;
  * @author Daniel Czerwonk
  *
  */
-public class WallpaperDAO implements IWallpaperDAO {
+public final class WallpaperDAO implements IWallpaperDAO {
 
+	private final IWallpaperParser wallpaperParser;
+	
 	private static final int MAX_DOWNLOAD_RETRIES = 10;
 
 	
 	/**
 	 * Creates a new instance of WallpaperDAO.
 	 */
-	public WallpaperDAO() {
+	@Inject
+	WallpaperDAO(IWallpaperParser wallpaperParser) {
 	    super();
+	    
+	    this.wallpaperParser = wallpaperParser;
     }
 	
 
@@ -66,7 +73,7 @@ public class WallpaperDAO implements IWallpaperDAO {
 										new TextFileHttpResponseHandler(),
 				    					MAX_DOWNLOAD_RETRIES);
             
-			List<Wallpaper> wallpapers = WallpaperParserFactory.getInstance().parse(data);
+			List<Wallpaper> wallpapers = this.wallpaperParser.parse(data);
 			
 			return wallpapers.toArray(new Wallpaper[wallpapers.size()]);
         }

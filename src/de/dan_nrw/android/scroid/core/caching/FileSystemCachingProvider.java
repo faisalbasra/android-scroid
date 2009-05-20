@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.inject.Inject;
+
 import de.dan_nrw.android.scroid.core.settings.ISettingsProvider;
 
 import android.content.Context;
@@ -42,7 +44,7 @@ import android.graphics.Bitmap.CompressFormat;
  * @author Daniel Czerwonk
  *
  */
-public class FileSystemCachingProvider implements IPersistentCache {
+public final class FileSystemCachingProvider implements IPersistentCache {
 
 	private static final Pattern URI_FILENAME_PATTERN = Pattern.compile("[^/]+$");
 	private final Context context;
@@ -54,7 +56,8 @@ public class FileSystemCachingProvider implements IPersistentCache {
 	 * @param context
 	 * @param settingsProvider
 	 */
-	public FileSystemCachingProvider(Context context, ISettingsProvider settingsProvider) {
+	@Inject
+	FileSystemCachingProvider(Context context, ISettingsProvider settingsProvider) {
 	    super();
 	    
 	    this.context = context;

@@ -20,6 +20,8 @@ package de.dan_nrw.android.scroid.core.wallpapers;
 
 import java.io.IOException;
 
+import com.google.inject.Inject;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 
@@ -28,7 +30,7 @@ import android.graphics.Bitmap;
  * @author Daniel Czerwonk
  *
  */
-public class WallpaperUpdater implements IWallpaperUpdater {
+public final class WallpaperUpdater implements IWallpaperUpdater {
 
 	private final Context context;
 
@@ -37,7 +39,8 @@ public class WallpaperUpdater implements IWallpaperUpdater {
 	 * Creates a new instance of WallpaperUpdater.
 	 * @param context
 	 */
-	public WallpaperUpdater(Context context) {
+	@Inject
+	WallpaperUpdater(Context context) {
 	    super();
 	    
 	    this.context = context;

@@ -18,6 +18,8 @@
  */
 package de.dan_nrw.android.scroid.core.settings;
 
+import com.google.inject.Inject;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -29,7 +31,7 @@ import de.dan_nrw.android.scroid.R;
  * @author Daniel Czerwonk
  *
  */
-public class SharedPreferencesSettingsProvider implements ISettingsProvider {
+public final class SharedPreferencesSettingsProvider implements ISettingsProvider {
 
 	private final Context context;
 	private SharedPreferences sharedPreferences;
@@ -40,7 +42,8 @@ public class SharedPreferencesSettingsProvider implements ISettingsProvider {
 	 * Creates a new instance of SharedPreferencesSettingsProvider.
 	 * @param context
 	 */
-	public SharedPreferencesSettingsProvider(Context context) {
+	@Inject
+	SharedPreferencesSettingsProvider(Context context) {
 	    super();
 	
 	    this.context = context;

@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import com.google.inject.Inject;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -34,7 +36,7 @@ import de.dan_nrw.android.scroid.Favourite;
  * @author Daniel Czerwonk
  *
  */
-public class FavouriteDAO implements IFavouriteDAO {
+public final class FavouriteDAO implements IFavouriteDAO {
 
 	private final Context context;
 	private SQLiteDatabase databaseInstance;
@@ -49,7 +51,8 @@ public class FavouriteDAO implements IFavouriteDAO {
 	 * Creates a new instance of FavouriteDAO.
 	 * @param context
 	 */
-	public FavouriteDAO(Context context) {
+	@Inject
+	FavouriteDAO(Context context) {
 		super();
 		
 		this.context = context;
