@@ -94,13 +94,10 @@ public class FavouriteListAdapter extends BaseAdapter {
 		Favourite favourite = this.favourites.get(position);
 		
 		if (convertView == null) {
-			LayoutInflater layoutInflater = LayoutInflater.from(this.context);
-			
-	    	convertView = layoutInflater.inflate(R.layout.favourite, null);	
+	    	convertView = LayoutInflater.from(this.context).inflate(R.layout.favourite, null);	
 	    }
 		
 		TextView textView = (TextView)convertView.findViewById(R.id.favouriteTextBox);
-		
 		textView.setText(favourite.getWallpaper().getTitle());
 		
 		ImageView imageView = (ImageView)convertView.findViewById(R.id.favouriteImageView);

@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/DefaultDialogLayout">
-    <TextView
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/BackgroundColor">
+    <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/settingsCacheSize" />
-    <EditText
-        android:id="@+id/settingsCacheSizeTextBox"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:numeric="integer" />
+        android:layout_weight="1">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <TextView
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            style="?android:listSeparatorTextViewStyle"
+	            android:text="@string/settingsCachingGroupHeader" />
+            <TextView
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:text="@string/settingsCacheSize" />
+            <EditText
+	            android:id="@+id/settingsCacheSizeTextBox"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:numeric="integer" />
+        </LinearLayout>
+    </ScrollView>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
@@ -26,5 +44,5 @@
             android:layout_height="wrap_content"
             android:text="@string/cancelButtonText"
             style="@style/DefaultButton" />
-    </LinearLayout>  
+    </LinearLayout>
 </LinearLayout>

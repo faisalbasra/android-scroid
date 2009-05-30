@@ -24,17 +24,12 @@ import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.DialogInterface.OnDismissListener;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Message;
 import android.provider.Contacts.People;
@@ -52,14 +47,11 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import de.dan_nrw.android.scroid.R;
 import de.dan_nrw.android.scroid.core.communications.CommunicationChooseDialog;
 import de.dan_nrw.android.scroid.core.communications.CommunicationChooseDialog.CommunicationChosenListener;
-import de.dan_nrw.android.scroid.core.favourites.FavouriteListDialog;
-import de.dan_nrw.android.scroid.core.favourites.FavouriteListDialog.FavouriteActionHandler;
-import de.dan_nrw.android.scroid.core.settings.ISettingsProvider;
-import de.dan_nrw.android.scroid.core.settings.SettingsDialog;
-import de.dan_nrw.android.scroid.core.wallpapers.IWallpaperUpdater;
+import de.dan_nrw.android.scroid.core.favourites.FavouriteListActivity;
+import de.dan_nrw.android.scroid.core.settings.SettingsActivity;
 import de.dan_nrw.android.scroid.core.wallpapers.WallpaperGalleryAdapter;
 import de.dan_nrw.android.scroid.core.wallpapers.WallpaperManager;
-import de.dan_nrw.android.scroid.core.wallpapers.WallpaperPreviewDialog;
+import de.dan_nrw.android.scroid.core.wallpapers.WallpaperPreviewActivity;
 import de.dan_nrw.android.scroid.dao.communications.ICommunicationDAO;
 import de.dan_nrw.android.scroid.dao.favourites.IFavouriteDAO;
 import de.dan_nrw.android.scroid.dao.wallpapers.WallpaperListReceivingException;
@@ -73,16 +65,15 @@ import de.dan_nrw.android.util.ui.AlertDialogFactory;
 @SuppressWarnings("deprecation")	// TODO: should be removed when LongTimeRunningOperation is no longer used
 public class ScroidWallpaperGallery extends Activity {
 
-	private static WallpaperGalleryAdapter wallpaperGalleryAdapter;
+	private WallpaperGalleryAdapter wallpaperGalleryAdapter;
 	private final WallpaperManager wallpaperManager;
-	private final IWallpaperUpdater wallpaperUpdater;
 	private final ICommunicationDAO communicationDAO;
 	private final IFavouriteDAO favouriteDAO;
-	private final ISettingsProvider settingsProvider;
 	private final List<Integer> preloadedList;
 	private Wallpaper selectedWallpaper;
 	
 	private static final int PICK_CONTACT = 0;
+	private static final int DIALOG_ABOUT = 0;
 
 	
     /**
@@ -91,13 +82,13 @@ public class ScroidWallpaperGallery extends Activity {
     public ScroidWallpaperGallery() {
 	    super();
 	    
-	    Injector injector = Guice.createInjector(new ProductiveModule(this));
+	    if (!DependencyInjector.isInitialized()) {
+	    	DependencyInjector.init(this);	
+	    }
 	    
-	    this.settingsProvider = injector.getInstance(ISettingsProvider.class);
-	    this.wallpaperManager = injector.getInstance(WallpaperManager.class);
-	    this.wallpaperUpdater = injector.getInstance(IWallpaperUpdater.class);
-	    this.communicationDAO = injector.getInstance(ICommunicationDAO.class);
-	    this.favouriteDAO = injector.getInstance(IFavouriteDAO.class);
+	    this.wallpaperManager = DependencyInjector.getInstance(WallpaperManager.class);
+	    this.communicationDAO = DependencyInjector.getInstance(ICommunicationDAO.class);
+	    this.favouriteDAO = DependencyInjector.getInstance(IFavouriteDAO.class);
 	    
 	    this.preloadedList = new ArrayList<Integer>();
     }
@@ -112,25 +103,33 @@ public class ScroidWallpaperGallery extends Activity {
         this.setContentView(R.layout.main);
         
         // initializing gallery
-        Gallery gallery = (Gallery)this.findViewById(R.id.gallery);
-        
-        this.initGallery(gallery);
+        this.initGallery();
         
         // filling gallery
         ProgressDialog progressDialog = new ProgressDialog(this);
         
         progressDialog.setMessage(this.getString(R.string.loadingText));
         
-        if (wallpaperGalleryAdapter != null) {
-        	gallery.setAdapter(wallpaperGalleryAdapter);
+        if (this.wallpaperGalleryAdapter != null) {
+        	this.updateGalleryAdapter();
         	
         	return;
         }
         
-        new FillGalleryTask(progressDialog, this, gallery).start();
+        new FillGalleryTask(progressDialog, this).start();
     }
 	
-	private void initGallery(Gallery gallery) {
+	private synchronized void updateGalleryAdapter() {
+		this.wallpaperGalleryAdapter = new WallpaperGalleryAdapter(this, this.wallpaperManager.getWallpapers(), wallpaperManager);
+		
+		Gallery gallery = (Gallery)this.findViewById(R.id.gallery);
+		
+		gallery.setAdapter(this.wallpaperGalleryAdapter);
+	}
+	
+	private void initGallery() {
+		Gallery gallery = (Gallery)this.findViewById(R.id.gallery);
+		
 		gallery.setOnItemClickListener(new OnItemClickListener() {
 
 			/* (non-Javadoc)
@@ -138,7 +137,9 @@ public class ScroidWallpaperGallery extends Activity {
              */
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {                	
-            	showWallpaperPreview((Wallpaper)parent.getItemAtPosition(position));
+            	Wallpaper wallpaper = (Wallpaper)parent.getItemAtPosition(position);
+            	
+            	showPreviewActivity(wallpaper);
             }
         });
         gallery.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -171,6 +172,10 @@ public class ScroidWallpaperGallery extends Activity {
         this.registerForContextMenu(gallery);
 	}
 	
+	private void showPreviewActivity(Wallpaper wallpaper) {
+		WallpaperPreviewActivity.showPreviewActivity(this, wallpaper);
+	}
+	
 	private void preloadThumbs(Wallpaper[] wallpapers, int index, int maxCount) {
 		for (int i = index; (i < (index + maxCount)) && (i < wallpapers.length); i++) {
 			if (this.preloadedList.contains(i)) {
@@ -190,18 +195,6 @@ public class ScroidWallpaperGallery extends Activity {
             }
 		}
 	}
-	
-	private void showWallpaperPreview(Wallpaper wallpaper) {
-		ProgressDialog progressDialog = new ProgressDialog(this);
-		
-		progressDialog.setMessage(this.getString(R.string.preparingText));
-		
-		new ShowPreviewDialogTask(progressDialog, 
-								  this, 
-								  wallpaper, 
-								  this.wallpaperUpdater, 
-								  this.wallpaperManager).start();	
-    }
 
 	/* (non-Javadoc)
      * @see android.app.Activity#onCreateContextMenu(android.view.ContextMenu, android.view.View, android.view.ContextMenu.ContextMenuInfo)
@@ -266,11 +259,11 @@ public class ScroidWallpaperGallery extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
 	    	case R.id.aboutMenuItem:
-	    		this.showAboutDialog();
+	    		this.showDialog(DIALOG_ABOUT);
 	    		return true;
 	    		
 	    	case R.id.settingsMenuItem:
-	    		this.showSettingsDialog();
+	    		this.startActivity(new Intent(this, SettingsActivity.class));
 	    		return true;
 	    		
 	    	case R.id.recommendMenuItem:
@@ -278,7 +271,7 @@ public class ScroidWallpaperGallery extends Activity {
 	    		return true;
 	    		
 	    	case R.id.favouritesMenuItem:
-	    		this.showFavouritesDialog();
+	    		FavouriteListActivity.showFavouriteListActivity(this);
 	    		return true;
 	    		
 	    	case R.id.closeMenuItem:
@@ -288,49 +281,19 @@ public class ScroidWallpaperGallery extends Activity {
 	    
 	    return false;
     }
-
-	private void showAboutDialog() {
-    	AboutDialog aboutDialog = new AboutDialog(this);
-    	
-    	aboutDialog.show();
-    }
-	
-    private void showSettingsDialog() {
-    	final SettingsDialog settingsDialog = new SettingsDialog(this, this.settingsProvider.getCacheSize());
-    	
-    	settingsDialog.setOnDismissListener(new OnDismissListener() {
-
-			/* (non-Javadoc)
-             * @see android.content.DialogInterface.OnDismissListener#onDismiss(android.content.DialogInterface)
-             */
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-            	settingsProvider.setCacheSize(settingsDialog.getCacheSize());
-            }
-    	});
-    	
-    	settingsDialog.show();
-    }
-
-    private void showFavouritesDialog() {
-    	ProgressDialog progressDialog = new ProgressDialog(this);
-    	
-    	progressDialog.setMessage(this.getString(R.string.loadingText));
-    	
-    	FavouriteActionHandler showPreviewHandler = new FavouriteActionHandler() {
-
-			@Override
-            public void handle(Favourite favourite) {
-				showWallpaperPreview(favourite.getWallpaper());
-            }
-    	};
-    	
-    	new ShowFavouritesTask(progressDialog, 
-    						   this, 
-    						   this.favouriteDAO, 
-    						   this.wallpaperManager, 
-    						   wallpaperGalleryAdapter.getWallpapers(),
-    						   showPreviewHandler).start();
+    
+	/* (non-Javadoc)
+     * @see android.app.Activity#onCreateDialog(int)
+     */
+    @Override
+    protected Dialog onCreateDialog(int id) {
+	    switch (id) {
+	    	case DIALOG_ABOUT:
+	    		return new AboutDialog(this);
+	    		
+	    	default:
+	    		return null;
+	    }
     }
     
     private void recommendWallpaper() {
@@ -412,19 +375,16 @@ public class ScroidWallpaperGallery extends Activity {
     private class FillGalleryTask extends LongTimeRunningOperation {
 
     	private final Context context;
-    	private final Gallery gallery;
     	
 		/**
 		 * Creates a new instance of FillGalleryTask.
 		 * @param progressDialog
 		 * @param context
-		 * @param gallery
 		 */
-		public FillGalleryTask(Dialog progressDialog, Context context, Gallery gallery) {
+		public FillGalleryTask(Dialog progressDialog, Context context) {
 	        super(progressDialog);
 	        
 	        this.context = context;
-	        this.gallery = gallery;
         }
 
 		/* (non-Javadoc)
@@ -436,9 +396,7 @@ public class ScroidWallpaperGallery extends Activity {
         		return;
         	}
         	
-        	wallpaperGalleryAdapter = new WallpaperGalleryAdapter(context, (Wallpaper[])message.obj, wallpaperManager);
-        	
-	        gallery.setAdapter(wallpaperGalleryAdapter);
+        	updateGalleryAdapter();
         }
 
 		/* (non-Javadoc)
@@ -468,267 +426,15 @@ public class ScroidWallpaperGallery extends Activity {
          */
         @Override
         public void onRun(Message message) throws Exception {
-        	// geting available wallpapers from server
-            Wallpaper[] wallpapers = wallpaperManager.getAvailableWallpapers(getBaseContext());
+        	// retrieving available wallpapers from server
+        	wallpaperManager.loadAvailableWallpapers(getBaseContext());
+        	
+            Wallpaper[] wallpapers = wallpaperManager.getWallpapers();
 
             // preloading first 3 thumbs
             preloadThumbs(wallpapers, 0, 3);
             
             message.obj = wallpapers;
-        }
-    }
-    
-    private static class ShowPreviewDialogTask extends LongTimeRunningOperation {
-
-    	private final Context context;
-    	private final Wallpaper wallpaper;
-    	private final IWallpaperUpdater wallpaperUpdater;
-    	private final WallpaperManager wallpaperManager;
-    	
-		/**
-		 * Creates a new instance of ShowPreviewDialogTask.
-		 * @param progressDialog
-		 * @param context
-		 * @param wallpaper
-		 * @param wallpaperUpdater
-		 * @param wallpaperManager
-		 */
-		public ShowPreviewDialogTask(Dialog progressDialog, Context context, Wallpaper wallpaper, IWallpaperUpdater wallpaperUpdater, WallpaperManager wallpaperManager) {
-	        super(progressDialog);
-	        
-	        this.context = context;
-	        this.wallpaper = wallpaper;
-	        this.wallpaperUpdater = wallpaperUpdater;
-	        this.wallpaperManager = wallpaperManager;
-        }
-
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#afterOperationSuccessfullyCompleted(android.os.Message)
-         */
-        @Override
-        public void afterOperationSuccessfullyCompleted(Message message) {
-        	final WallpaperPreviewDialog dialog = new WallpaperPreviewDialog(wallpaper, (Bitmap)message.obj, context);
-			
-			dialog.setOnDismissListener(new OnDismissListener() {
-
-				@Override
-	            public void onDismiss(DialogInterface sender) {
-					if (dialog.getDialogResult() != WallpaperPreviewDialog.DIALOG_RESULT_OK) {
-						return;
-					}
-					
-					downlaodAndSetWallpaper();
-	            }		
-			});
-			
-			dialog.show();
-        }
-        
-        private void downlaodAndSetWallpaper() {
-			ProgressDialog progressDialog = new ProgressDialog(context);
-			
-			progressDialog.setMessage(context.getString(R.string.applyWallpaperText));
-
-			new DownloadAndSetWallpaperTask(progressDialog, 
-											this.context, 
-											this.wallpaper, 
-											this.wallpaperUpdater, 
-											this.wallpaperManager).start();
-        }
-
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#handleUncaughtException(java.lang.Thread, java.lang.Throwable)
-         */
-        @Override
-        public void handleUncaughtException(Thread thread, Throwable ex) {
-        	if (ex instanceof IOException) {
-        		AlertDialogFactory.showErrorMessage(context, R.string.errorText, R.string.downloadException);
-        	}
-        	else {
-        		throw new RuntimeException(ex);
-        	}
-        }
-
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#onRun(android.os.Message)
-         */
-        @Override
-        public void onRun(Message message) throws Exception {
-        	message.obj = wallpaperManager.getPreviewImage(wallpaper);
-        }
-    }
-    
-    private static class DownloadAndSetWallpaperTask extends LongTimeRunningOperation {
-
-    	private final Context context;
-    	private final Wallpaper wallpaper;
-    	private final IWallpaperUpdater wallpaperUpdater;
-    	private final WallpaperManager wallpaperManager;
-
-        /**
-         * Creates a new instance of DownloadAndSetWallpaperTask.
-         * @param progressDialog
-         * @param context
-         * @param wallpaper
-         * @param wallpaperUpdater
-         * @param wallpaperManager
-         */
-        public DownloadAndSetWallpaperTask(Dialog progressDialog, Context context, Wallpaper wallpaper, IWallpaperUpdater wallpaperUpdater, WallpaperManager wallpaperManager) {
-	        super(progressDialog);
-	        
-	        this.context = context;
-	        this.wallpaper = wallpaper;
-	        this.wallpaperUpdater = wallpaperUpdater;
-	        this.wallpaperManager = wallpaperManager;
-        }
-
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#afterOperationSuccessfullyCompleted(android.os.Message)
-         */
-        @Override
-        public void afterOperationSuccessfullyCompleted(Message message) {
-        	Intent intent = new Intent(Intent.ACTION_MAIN);
-            
-            intent.addCategory(Intent.CATEGORY_HOME);
-            
-            this.context.startActivity(intent);
-        }
-
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#handleUncaughtException(java.lang.Thread, java.lang.Throwable)
-         */
-        @Override
-        public void handleUncaughtException(Thread thread, Throwable ex) {
-        	if (ex instanceof IOException) {
-            	AlertDialogFactory.showErrorMessage(context, R.string.errorText, R.string.downloadException);	
-        	}
-        	else {
-        		throw new RuntimeException(ex);
-        	}
-        }
-
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#onRun(android.os.Message)
-         */
-        @Override
-        public void onRun(Message message) throws Exception {
-        	Bitmap bitmap = wallpaperManager.getWallpaperImage(this.wallpaper);
-			
-			this.wallpaperUpdater.setWallpaper(bitmap);
-        }
-    }
-    
-    private static class ShowFavouritesTask extends LongTimeRunningOperation {
-
-    	private final Context context;
-    	private final IFavouriteDAO favouriteDAO;
-    	private final WallpaperManager wallpaperManager;
-    	private final Wallpaper[] wallpapers;
-    	private final FavouriteActionHandler showPreviewHandler;
-    	
-		/**
-         * Method for creating a new instance of ShowFavouritesTask
-         * @param progressDialog
-         * @param context
-         * @param favouriteDAO
-         * @param wallpaperManager
-         * @param wallpapers
-         * @param showPreviewHandler
-         */
-        public ShowFavouritesTask(Dialog progressDialog, Context context, IFavouriteDAO favouriteDAO, WallpaperManager wallpaperManager, Wallpaper[] wallpapers, FavouriteActionHandler showPreviewHandler) {
-	        super(progressDialog);
-	        
-	        this.context = context;
-	        this.favouriteDAO = favouriteDAO;
-	        this.wallpaperManager = wallpaperManager;
-	        this.wallpapers = wallpapers;
-	        this.showPreviewHandler = showPreviewHandler;
-        }
-
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#afterOperationSuccessfullyCompleted(android.os.Message)
-         */
-        @SuppressWarnings("unchecked")
-        @Override
-        public void afterOperationSuccessfullyCompleted(Message message) {
-        	if (!(message.obj instanceof List)) {
-        		return;
-        	}
-        	
-        	List<Favourite> favourites = (List<Favourite>)message.obj;
-        	
-        	if (favourites.size() < 1) {
-        		AlertDialogFactory.showInfoMessage(context, R.string.infoText, R.string.noFavouritesDefinedText);
-        		
-        		return;
-        	}
-        	
-        	FavouriteActionHandler removeHandler = new FavouriteActionHandler() {
-
-				@Override
-                public void handle(Favourite favourite) {
-					if (favourite.getWallpaper() != null) {
-                		favouriteDAO.remove(favourite.getWallpaper().getId());	
-                	}	
-                }
-        	};
-        	
-        	FavouriteListDialog dialog = new FavouriteListDialog(this.context, 
-        														 favourites, 
-        														 this.wallpaperManager, 
-        														 removeHandler, 
-        														 this.showPreviewHandler);
-        	
-        	dialog.show();
-        }
-
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#handleUncaughtException(java.lang.Thread, java.lang.Throwable)
-         */
-        @Override
-        public void handleUncaughtException(Thread thread, Throwable ex) {
-        	if (ex instanceof IOException) {
-            	AlertDialogFactory.showErrorMessage(context, 
-													R.string.errorText, 
-													R.string.downloadException);	
-        	}
-        	else {
-        		throw new RuntimeException(ex);
-        	}
-        }
-
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#onRun(android.os.Message)
-         */
-        @Override
-        public void onRun(Message message) throws Exception {
-        	List<Favourite> favourites = new ArrayList<Favourite>();
-        	
-        	for (Favourite favourite : favouriteDAO.getAll()) {
-        		Wallpaper wallpaper = this.findWallpaperForFavourite(favourite);
-        		
-        		if (wallpaper == null) {
-        			continue;
-        		}
-        		
-        		favourite.setWallpaper(wallpaper);
-        		
-        		favourites.add(favourite);
-        		
-        		this.wallpaperManager.getThumbImage(wallpaper);
-        	}
-        	
-        	message.obj = favourites;
-        }
-        
-        private Wallpaper findWallpaperForFavourite(Favourite favourite) {
-        	for (Wallpaper wallpaper : this.wallpapers) {
-        		if (wallpaper.getId().equals(favourite.getWallpaperId())) {
-        			return wallpaper;
-        		}
-        	}
-        	
-        	return null;
         }
     }
 

@@ -18,13 +18,12 @@
  */
 package de.dan_nrw.android.scroid.core.settings;
 
-import android.app.Dialog;
-import android.content.Context;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
+import de.dan_nrw.android.scroid.DependencyInjector;
 import de.dan_nrw.android.scroid.R;
 
 
@@ -32,72 +31,69 @@ import de.dan_nrw.android.scroid.R;
  * @author Daniel Czerwonk
  *
  */
-public class SettingsDialog extends Dialog {
-
-	private long currentCacheSize;
-
+public class SettingsActivity extends Activity {
+	
+	private final ISettingsProvider settingsProvider;
+	
 	
 	/**
-	 * Creates a new instance of SettingsDialog.
-	 * @param context
-	 * @param currentCacheSize
+	 * Creates a new instance of SettingsActivity.
 	 */
-	public SettingsDialog(Context context, long currentCacheSize) {
-	    super(context);
+	public SettingsActivity() {
+	    super();
 	    
-	    this.currentCacheSize = currentCacheSize;
+	    this.settingsProvider = DependencyInjector.getInstance(ISettingsProvider.class);
     }
     
 	
 	/* (non-Javadoc)
-     * @see android.app.Dialog#onCreate(android.os.Bundle)
-     */
-    @Override
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    
+	    this.setTitle(String.format("%s: %s", 
+	    							this.getString(R.string.applicationName),
+	    							this.getString(R.string.settingsTitle)));
 	    this.setContentView(R.layout.settings);
 	    
-	    this.setTitle(R.string.settingsTitle);
-	    
-	    Button okButton = (Button)this.findViewById(R.id.settingsOkButton);
-	    
-	    okButton.setOnClickListener(new View.OnClickListener() {
+	    this.findViewById(R.id.settingsOkButton).setOnClickListener(new View.OnClickListener() {
 
 			/* (non-Javadoc)
              * @see android.view.View.OnClickListener#onClick(android.view.View)
              */
             @Override
             public void onClick(View v) {
-            	dismiss();
+            	updateConfig();
+            	
+            	finish();
             }
 	    });
 	    
-	    Button cancelButton = (Button)this.findViewById(R.id.settingsCancelButton);
-	    
-	    cancelButton.setOnClickListener(new View.OnClickListener() {
+	    this.findViewById(R.id.settingsCancelButton).setOnClickListener(new View.OnClickListener() {
 
 			/* (non-Javadoc)
              * @see android.view.View.OnClickListener#onClick(android.view.View)
              */
             @Override
             public void onClick(View v) {
-            	cancel();
+            	finish();
             }
 	    });
 	    
-	    EditText cacheSizeTextBox = (EditText)this.findViewById(R.id.settingsCacheSizeTextBox);
-	    
-	    cacheSizeTextBox.setText(Long.toString(this.currentCacheSize));
+	    this.refreshCacheEditText();
     }
     
-    public long getCacheSize() {
+    private void updateConfig() {
     	EditText cacheSizeTextBox = (EditText)this.findViewById(R.id.settingsCacheSizeTextBox);
     	
-    	if (cacheSizeTextBox.getText().toString().equals("")) {
-    		return 0;
-    	}
-    	
-    	return Long.parseLong(cacheSizeTextBox.getText().toString());
+    	this.settingsProvider.setCacheSize(Long.parseLong(cacheSizeTextBox.getText().toString()));
+    }
+    
+    private void refreshCacheEditText() {
+    	EditText cacheSizeTextBox = (EditText)this.findViewById(R.id.settingsCacheSizeTextBox);
+	    
+	    cacheSizeTextBox.setText(Long.toString(this.settingsProvider.getCacheSize()));
     }
 }

@@ -9,7 +9,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
+    <activity android:name=".core.favourites.FavouriteListActivity"></activity>
+<activity android:name=".core.wallpapers.WallpaperPreviewActivity" android:theme="@android:style/Theme.Dialog"></activity>
+<activity android:name=".core.settings.SettingsActivity"></activity>
+</application>
 <uses-permission android:name="android.permission.SET_WALLPAPER"></uses-permission>
 <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 <uses-permission android:name="android.permission.READ_CONTACTS"></uses-permission>

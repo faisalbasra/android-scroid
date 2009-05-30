@@ -18,47 +18,34 @@
  */
 package de.dan_nrw.android.scroid;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
+import android.content.Context;
+
 
 /**
  * @author Daniel Czerwonk
  *
  */
-public class Communication {
+public final class DependencyInjector {
 
-	private final Type type;
-	private final String value;
-
+	private static Injector injector;
 	
-	/**
-	 * Creates a new instance of Communication.
-	 * @param type
-	 * @param value
-	 */
-	public Communication(Type type, String value) {
-	    super();
-	    
-	    this.type = type;
-	    this.value = value;
-    }
-    
 	
-    /**
-     * @return Type (Mobile, E-Mail)
-     */
-    public Type getType() {
-	    return type;
-    }
-
-	/**
-     * @return Address / Number
-     */
-    public String getValue() {
-	    return value;
-    }
-
-    
-	public enum Type {
-		Mobile,
-		Email
+	static void init(Context context) {
+		injector = Guice.createInjector(new ProductiveModule(context));
+	}
+	
+	static boolean isInitialized() {
+		return (injector != null);
+	}
+	
+	public static <T> T getInstance(Class<T> classObject) {
+		if (injector == null) {
+			throw new IllegalStateException("init(Context) must be called before accessing this method.");
+		}
+		
+		return injector.getInstance(classObject);
 	}
 }

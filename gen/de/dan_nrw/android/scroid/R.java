@@ -19,35 +19,38 @@ public final class R {
     }
     public static final class id {
         public static final int aboutCloseButton=0x7f080000;
-        public static final int aboutMenuItem=0x7f080011;
-        public static final int closeMenuItem=0x7f080015;
+        public static final int aboutMenuItem=0x7f080013;
+        public static final int closeFavouriteListButton=0x7f080006;
+        public static final int closeMenuItem=0x7f080017;
         public static final int communicationImageView=0x7f080001;
         public static final int communicationTextView=0x7f080002;
         public static final int favouriteImageView=0x7f080003;
         public static final int favouriteTextBox=0x7f080004;
-        public static final int favouritesMenuItem=0x7f080013;
-        public static final int favouritesRemoveFavouriteMenuItem=0x7f08000e;
-        public static final int gallery=0x7f080005;
-        public static final int galleryAddFavouriteMenuItem=0x7f08000f;
-        public static final int galleryRemoveFavouriteMenuItem=0x7f080010;
-        public static final int previewCancelButton=0x7f08000a;
-        public static final int previewOkButton=0x7f080009;
-        public static final int previewWallpaperImage=0x7f080007;
-        public static final int previewWallpaperText=0x7f080008;
-        public static final int previewWallpaperTitle=0x7f080006;
-        public static final int recommendMenuItem=0x7f080014;
-        public static final int settingsCacheSizeTextBox=0x7f08000b;
-        public static final int settingsCancelButton=0x7f08000d;
-        public static final int settingsMenuItem=0x7f080012;
-        public static final int settingsOkButton=0x7f08000c;
+        public static final int favouritesListView=0x7f080005;
+        public static final int favouritesMenuItem=0x7f080015;
+        public static final int favouritesRemoveFavouriteMenuItem=0x7f080010;
+        public static final int gallery=0x7f080007;
+        public static final int galleryAddFavouriteMenuItem=0x7f080011;
+        public static final int galleryRemoveFavouriteMenuItem=0x7f080012;
+        public static final int previewCancelButton=0x7f08000c;
+        public static final int previewOkButton=0x7f08000b;
+        public static final int previewWallpaperImage=0x7f080009;
+        public static final int previewWallpaperText=0x7f08000a;
+        public static final int previewWallpaperTitle=0x7f080008;
+        public static final int recommendMenuItem=0x7f080016;
+        public static final int settingsCacheSizeTextBox=0x7f08000d;
+        public static final int settingsCancelButton=0x7f08000f;
+        public static final int settingsMenuItem=0x7f080014;
+        public static final int settingsOkButton=0x7f08000e;
     }
     public static final class layout {
         public static final int about=0x7f030000;
         public static final int communication=0x7f030001;
         public static final int favourite=0x7f030002;
-        public static final int main=0x7f030003;
-        public static final int preview=0x7f030004;
-        public static final int settings=0x7f030005;
+        public static final int favourite_list=0x7f030003;
+        public static final int main=0x7f030004;
+        public static final int preview=0x7f030005;
+        public static final int settings=0x7f030006;
     }
     public static final class menu {
         public static final int favourites_context_menu=0x7f070000;
@@ -84,6 +87,7 @@ public final class R {
         public static final int rolesAmer=0x7f040009;
         public static final int rolesDaniel=0x7f04000a;
         public static final int settingsCacheSize=0x7f040018;
+        public static final int settingsCachingGroupHeader=0x7f040020;
         public static final int settingsMenuItemText=0x7f040019;
         public static final int settingsTitle=0x7f04001a;
         public static final int versionInfo=0x7f040001;

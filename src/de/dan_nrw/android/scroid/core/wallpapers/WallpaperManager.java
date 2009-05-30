@@ -43,6 +43,7 @@ public class WallpaperManager {
 
 	private final IWallpaperDAO wallpaperDAO;
 	private final IPersistentCache persistentWallpaperCache;
+	private Wallpaper[] wallpapers;
 	
 	
 	/**
@@ -57,16 +58,59 @@ public class WallpaperManager {
 	    this.wallpaperDAO = wallpaperDAO;
 	    this.persistentWallpaperCache = persistentWallpaperCache;
     }	
+
 	
+    /**
+     * Gets wallpaper list retrieved by loadAvailableWallpapers(Context). 
+     * Note: loadAvailableWallpapers(Context) must be called before invoking this method.
+     * @return the wallpapers
+     */
+    public Wallpaper[] getWallpapers() {
+    	if (this.wallpapers == null) {
+    		throw new IllegalStateException("loadAvailableWallpapers(Context) must be called first.");
+    	}
+    	
+    	return this.wallpapers;
+    }
     
+    /**
+     * Gets wallpaper by id. 
+     * Note: loadAvailableWallpapers(Context) must be called before invoking this method.
+     * @param id Id of Wallpaper
+     * @return
+     */
+    public Wallpaper getWallpaperById(String id) {
+    	if (this.wallpapers == null) {
+    		throw new IllegalStateException("loadAvailableWallpapers(Context) must be called first.");
+    	}
+    	
+    	for (Wallpaper wallpaper : this.wallpapers) {
+    		if (wallpaper.getId().equals(id)) {
+    			return wallpaper;
+    		}
+    	}
+    	
+    	return null;
+    }
+
 	/**
-     * Gets list of all available wallpapers.
+     * Loads list of all available wallpapers from service.
      * @param context
      * @return List of available wallpapers
      * @throws WallpaperListReceivingException
      */
-    public Wallpaper[] getAvailableWallpapers(Context context) throws WallpaperListReceivingException {
-    	return this.wallpaperDAO.getAvailableWallpapers(context);
+    public synchronized void loadAvailableWallpapers(Context context) throws WallpaperListReceivingException {
+    	Wallpaper[] retrievedWallpapers = this.wallpaperDAO.getAvailableWallpapers(context);
+    	
+    	if (this.wallpapers != null) {
+    		// if wallpapers were retrieved before, wallpapers field must be locked
+    		synchronized(this.wallpapers) {
+    			this.wallpapers = retrievedWallpapers;	            
+            }
+    	}
+    	else {
+    		this.wallpapers = retrievedWallpapers;
+    	}
     }
     
     /**

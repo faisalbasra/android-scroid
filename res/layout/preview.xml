@@ -1,42 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@color/BackgroundColor">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:paddingLeft="5dip"
+        android:paddingRight="5dip">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/previewWallpaperTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12pt"
+                android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/previewWallpaperImage" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/previewWallpaperText" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:linksClickable="true" />
+        </LinearLayout>
+    </ScrollView>
     <LinearLayout
-        style="@style/DefaultDialogLayout">
-	    <TextView
-	        android:id="@+id/previewWallpaperTitle"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+	    <Button 
+	        android:id="@+id/previewOkButton"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:textSize="12pt"
-	        android:textStyle="bold" />
-	    <ImageView
-	        android:id="@+id/previewWallpaperImage" 
+	        android:text="@string/previewOkButtonText"
+            style="@style/DefaultButton" />
+	    <Button 
+	        android:id="@+id/previewCancelButton"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:minWidth="280dip" />
-	    <TextView
-	        android:id="@+id/previewWallpaperText" 
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:linksClickable="true" />
-	    <LinearLayout
-	        android:orientation="horizontal"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:paddingTop="10dip" >
-		    <Button 
-		        android:id="@+id/previewOkButton"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:text="@string/previewOkButtonText"
-	            style="@style/DefaultButton" />
-		    <Button 
-		        android:id="@+id/previewCancelButton"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:text="@string/cancelButtonText"
-		        style="@style/DefaultButton" />
-	    </LinearLayout>
+	        android:text="@string/cancelButtonText"
+	        style="@style/DefaultButton" />
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

@@ -27,6 +27,7 @@ import de.dan_nrw.android.scroid.core.caching.IPersistentCache;
 import de.dan_nrw.android.scroid.core.settings.ISettingsProvider;
 import de.dan_nrw.android.scroid.core.settings.SharedPreferencesSettingsProvider;
 import de.dan_nrw.android.scroid.core.wallpapers.IWallpaperUpdater;
+import de.dan_nrw.android.scroid.core.wallpapers.WallpaperManager;
 import de.dan_nrw.android.scroid.core.wallpapers.WallpaperUpdater;
 import de.dan_nrw.android.scroid.dao.communications.CommunicationDAO;
 import de.dan_nrw.android.scroid.dao.communications.ICommunicationDAO;
@@ -64,6 +65,7 @@ final class ProductiveModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		this.bind(Context.class).toInstance(this.context);
+		this.bind(WallpaperManager.class).asEagerSingleton();
 		this.bind(ISettingsProvider.class).to(SharedPreferencesSettingsProvider.class).asEagerSingleton();
 		this.bind(IWallpaperDAO.class).to(WallpaperDAO.class).asEagerSingleton();
 		this.bind(IPersistentCache.class).to(FileSystemCachingProvider.class).asEagerSingleton();
