@@ -100,16 +100,6 @@ public class FavouriteListActivity extends Activity {
 	    							this.getString(R.string.favouritesText)));
 	    this.setContentView(R.layout.favourite_list);
 	    
-	    if (favourites != null) {
-	    	this.updateFavouritesAdapter();
-	    }
-	    else {
-	    	ProgressDialog progressDialog = new ProgressDialog(this);
-	    	progressDialog.setMessage(this.getString(R.string.loadingText));
-
-	    	new InitFavouriteListTask(progressDialog, this).start();
-	    }
-	    
 	    this.initListView();
 	    
 	    this.findViewById(R.id.closeFavouriteListButton).setOnClickListener(new OnClickListener() {
@@ -119,6 +109,16 @@ public class FavouriteListActivity extends Activity {
 				finish();
             }
 	    });
+	    
+	    if (favourites != null) {
+	    	this.updateFavouritesAdapter();
+	    }
+	    else {
+	    	ProgressDialog progressDialog = new ProgressDialog(this);
+	    	progressDialog.setMessage(this.getString(R.string.loadingText));
+
+	    	new InitFavouriteListTask(progressDialog, this).start();
+	    }
     }
 
     private void initListView() {
@@ -261,7 +261,7 @@ public class FavouriteListActivity extends Activity {
         	List<Favourite> favourites = new ArrayList<Favourite>();
         	
         	for (Favourite favourite : favouriteDAO.getAll()) {
-        		Wallpaper wallpaper = this.findWallpaperForFavourite(favourite);
+        		Wallpaper wallpaper = wallpaperManager.getWallpaperById(favourite.getWallpaperId());
         		
         		if (wallpaper == null) {
         			continue;
@@ -275,16 +275,6 @@ public class FavouriteListActivity extends Activity {
         	}
         	
         	message.obj = favourites;
-        }
-        
-        private Wallpaper findWallpaperForFavourite(Favourite favourite) {
-        	for (Wallpaper wallpaper : wallpaperManager.getWallpapers()) {
-        		if (wallpaper.getId().equals(favourite.getWallpaperId())) {
-        			return wallpaper;
-        		}
-        	}
-        	
-        	return null;
         }
     }
 }
