@@ -111,7 +111,7 @@ public class FavouriteListActivity extends Activity {
     }
     
     public void onCloseButtonClicked(View parent) {
-        finish();
+        this.finish();
     }
 
     private void initListView() {

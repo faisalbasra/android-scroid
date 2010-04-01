@@ -55,7 +55,7 @@ public class WallpaperPreviewActivity extends Activity {
 	 * @param bitmap
 	 * @param context
 	 */
-	private WallpaperPreviewActivity() {
+	public WallpaperPreviewActivity() {
 	    super();
 	    
 	    this.wallpaperManager = DependencyInjector.getInstance(WallpaperManager.class);

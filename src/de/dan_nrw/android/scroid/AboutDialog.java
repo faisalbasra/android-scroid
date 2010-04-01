@@ -23,8 +23,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
-import de.dan_nrw.android.scroid.R;
-
 
 /**
  * @author Daniel Czerwonk
@@ -53,9 +51,13 @@ class AboutDialog extends Dialog {
 	    							this.getContext().getString(R.string.versionInfo)));
 	    
 	    this.setContentView(R.layout.about);
-    }
-    
-    public void onCloseButtonClicked(View target) {
-        dismiss();
+	    
+	    this.findViewById(R.id.aboutCloseButton).setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
     }
 }

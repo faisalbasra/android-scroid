@@ -109,7 +109,6 @@ public final class WallpaperDAO implements IWallpaperDAO {
     private <T> T download(URI uri, ResponseHandler<T> responseHandler, int maxRetries) throws ClientProtocolException, IOException {
     	try {
 			DefaultHttpClient client = new DefaultHttpClient();
-	    	
 			client.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(maxRetries, false));
 			
 			HttpRequest request = new HttpGet(uri);
