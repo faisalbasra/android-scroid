@@ -62,7 +62,6 @@ public final class FavouriteDAO implements IFavouriteDAO {
 	private SQLiteDatabase getDatabaseInstance() {
 		if (databaseInstance == null) {
 			this.databaseInstance = this.context.openOrCreateDatabase("blbr", SQLiteDatabase.CREATE_IF_NECESSARY, null);
-			
 			this.databaseInstance.execSQL("create table if not exists favourites ( WallpaperId VARCHAR(255) NOT NULL PRIMARY KEY, Date INTEGER NOT NULL );");
 		}
 		
@@ -75,9 +74,7 @@ public final class FavouriteDAO implements IFavouriteDAO {
 	@Override
 	public Favourite[] getAll() {
 		List<Favourite> favourites = new ArrayList<Favourite>();
-		
 		SQLiteDatabase database = this.getDatabaseInstance();
-		
 		Cursor cursor = null;
 		
 		try {
@@ -88,11 +85,9 @@ public final class FavouriteDAO implements IFavouriteDAO {
 			
 			while (cursor.moveToNext()) {
 				Calendar calendar = Calendar.getInstance();
-	        	
 	        	calendar.setTimeInMillis(cursor.getLong(dateColumn));
 	        	
 	        	Favourite favourite = new Favourite(cursor.getString(wallpaperIdColumn), calendar.getTime());
-	            
 	            favourites.add(favourite);
 			}
 			
@@ -116,12 +111,10 @@ public final class FavouriteDAO implements IFavouriteDAO {
 		contentValues.put(DATE, Calendar.getInstance().getTimeInMillis());
 		
 		SQLiteDatabase database = this.getDatabaseInstance();
-		
 		database.beginTransaction();
 
 		try {
 			database.insertOrThrow(TABLE_NAME, null, contentValues);
-			
 			database.setTransactionSuccessful();
 		}
 		finally {
@@ -135,12 +128,10 @@ public final class FavouriteDAO implements IFavouriteDAO {
     @Override
     public void remove(String id) {
     	SQLiteDatabase database = this.getDatabaseInstance();
-    	
     	database.beginTransaction();
     	
     	try {
     		database.delete(TABLE_NAME, String.format("%s = ?", WALLPAPER_ID), new String[] { id });
-    		
     		database.setTransactionSuccessful();
     	}
     	finally {

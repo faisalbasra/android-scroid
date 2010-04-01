@@ -57,7 +57,7 @@ public class WallpaperPreviewActivity extends Activity {
 	 * @param bitmap
 	 * @param context
 	 */
-	public WallpaperPreviewActivity() {
+	private WallpaperPreviewActivity() {
 	    super();
 	    
 	    this.wallpaperManager = DependencyInjector.getInstance(WallpaperManager.class);
@@ -95,29 +95,15 @@ public class WallpaperPreviewActivity extends Activity {
 	    TextView textTextView = (TextView)this.findViewById(R.id.previewWallpaperText);
 	    textTextView.setText(wallpaper.getText());
 	    
-	    this.findViewById(R.id.previewCancelButton).setOnClickListener(new View.OnClickListener() {
-
-			/* (non-Javadoc)
-             * @see android.view.View.OnClickListener#onClick(android.view.View)
-             */
-            @Override
-            public void onClick(View v) {
-            	finish();
-            }
-	    });
-	    
-	    this.findViewById(R.id.previewOkButton).setOnClickListener(new View.OnClickListener() {
-
-			/* (non-Javadoc)
-             * @see android.view.View.OnClickListener#onClick(android.view.View)
-             */
-            @Override
-            public void onClick(View v) {
-            	downlaodAndSetWallpaper();
-            }
-	    });
-	    
 	    this.loadImage();
+    }
+	
+	public void onOkButtonClicked(View parent) {
+	    this.downlaodAndSetWallpaper();
+	}
+	
+	public void onCancelButtonClicked(View parent) {
+        this.finish();
     }
 	
 	private void loadImage() {
@@ -132,7 +118,6 @@ public class WallpaperPreviewActivity extends Activity {
      */
     private synchronized void setBitmap(Bitmap bitmap) {
 	    ImageView imageView = (ImageView)this.findViewById(R.id.previewWallpaperImage);
-	    
 	    imageView.setImageBitmap(bitmap);    	
     }
 	

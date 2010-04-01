@@ -96,7 +96,6 @@ public class WallpaperGalleryAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		Wallpaper wallpaper = this.wallpapers[position];
-		
 		ImageView imageView = new ImageView(this.context);
 		
 		try {

@@ -102,14 +102,6 @@ public class FavouriteListActivity extends Activity {
 	    
 	    this.initListView();
 	    
-	    this.findViewById(R.id.closeFavouriteListButton).setOnClickListener(new OnClickListener() {
-	    	
-			@Override
-            public void onClick(View v) {
-				finish();
-            }
-	    });
-	    
 	    if (favourites != null) {
 	    	this.updateFavouritesAdapter();
 	    }
@@ -119,6 +111,10 @@ public class FavouriteListActivity extends Activity {
 
 	    	new InitFavouriteListTask(progressDialog, this).start();
 	    }
+    }
+    
+    public void onCloseButtonClicked(View parent) {
+        finish();
     }
 
     private void initListView() {
@@ -161,7 +157,6 @@ public class FavouriteListActivity extends Activity {
     	}
     	
     	MenuInflater menuInflater = new MenuInflater(this);
-    	
     	menuInflater.inflate(R.menu.favourites_context_menu, menu);
     }
     
@@ -185,7 +180,6 @@ public class FavouriteListActivity extends Activity {
 
     private void removeFavourite() {
     	this.favouriteDAO.remove(this.selectedFavourite.getWallpaperId());
-    	
 		favourites.remove(this.selectedFavourite);
 		
 		this.updateFavouritesAdapter();
@@ -193,7 +187,6 @@ public class FavouriteListActivity extends Activity {
     
     private synchronized void updateFavouritesAdapter() {
     	ListView listView = (ListView)this.findViewById(R.id.favouritesListView);
-    	
     	listView.setAdapter(new FavouriteListAdapter(favourites, this, this.wallpaperManager));
     }
     

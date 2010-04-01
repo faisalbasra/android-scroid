@@ -37,12 +37,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/okButtonText"
-            style="@style/DefaultButton" />
+            style="@style/DefaultButton"
+            android:onClick="onOkButtonClicked" />
         <Button 
             android:id="@+id/settingsCancelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancelButtonText"
-            style="@style/DefaultButton" />
+            style="@style/DefaultButton"
+            android:onClick="onCancelButtonClicked" />
     </LinearLayout>
 </LinearLayout>

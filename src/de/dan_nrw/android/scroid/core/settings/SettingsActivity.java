@@ -58,42 +58,25 @@ public class SettingsActivity extends Activity {
 	    							this.getString(R.string.settingsTitle)));
 	    this.setContentView(R.layout.settings);
 	    
-	    this.findViewById(R.id.settingsOkButton).setOnClickListener(new View.OnClickListener() {
-
-			/* (non-Javadoc)
-             * @see android.view.View.OnClickListener#onClick(android.view.View)
-             */
-            @Override
-            public void onClick(View v) {
-            	updateConfig();
-            	
-            	finish();
-            }
-	    });
-	    
-	    this.findViewById(R.id.settingsCancelButton).setOnClickListener(new View.OnClickListener() {
-
-			/* (non-Javadoc)
-             * @see android.view.View.OnClickListener#onClick(android.view.View)
-             */
-            @Override
-            public void onClick(View v) {
-            	finish();
-            }
-	    });
-	    
 	    this.refreshCacheEditText();
     }
+	
+	public void onOkButtonClicked(View parent) {
+	    this.updateConfig();
+	    this.finish();
+	}
+	
+	public void onCancelButtonClicked(View parent) {
+	    this.finish();
+	}
     
     private void updateConfig() {
     	EditText cacheSizeTextBox = (EditText)this.findViewById(R.id.settingsCacheSizeTextBox);
-    	
     	this.settingsProvider.setCacheSize(Long.parseLong(cacheSizeTextBox.getText().toString()));
     }
     
     private void refreshCacheEditText() {
     	EditText cacheSizeTextBox = (EditText)this.findViewById(R.id.settingsCacheSizeTextBox);
-	    
 	    cacheSizeTextBox.setText(Long.toString(this.settingsProvider.getCacheSize()));
     }
 }

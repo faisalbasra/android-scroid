@@ -51,7 +51,6 @@ public final class JsonWallpaperParser implements IWallpaperParser {
 	public List<Wallpaper> parse(String data) throws ParseException {
         try {
 	        JSONArray array = new JSONArray(data);
-	        
 			List<Wallpaper> wallpapers = new ArrayList<Wallpaper>();
 			
 			for (int i = 0; i < array.length(); i++) {

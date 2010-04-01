@@ -99,15 +99,13 @@ public class ScroidWallpaperGallery extends Activity {
         super.onCreate(savedInstanceState);
           
         this.setTheme(android.R.style.Theme_NoTitleBar);
-        
         this.setContentView(R.layout.main);
         
         // initializing gallery
         this.initGallery();
         
         // filling gallery
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        
+        ProgressDialog progressDialog = new ProgressDialog(this);     
         progressDialog.setMessage(this.getString(R.string.loadingText));
         
         if (this.wallpaperGalleryAdapter != null) {
@@ -123,7 +121,6 @@ public class ScroidWallpaperGallery extends Activity {
 		this.wallpaperGalleryAdapter = new WallpaperGalleryAdapter(this, this.wallpaperManager.getWallpapers(), wallpaperManager);
 		
 		Gallery gallery = (Gallery)this.findViewById(R.id.gallery);
-		
 		gallery.setAdapter(this.wallpaperGalleryAdapter);
 	}
 	
@@ -207,7 +204,6 @@ public class ScroidWallpaperGallery extends Activity {
     	}
     	
     	MenuInflater menuInflater = new MenuInflater(this);
-    	
     	menuInflater.inflate(R.menu.gallery_context_menu, menu);
     	
     	if (this.favouriteDAO.isFavourite(this.selectedWallpaper.getId())) {
@@ -224,7 +220,6 @@ public class ScroidWallpaperGallery extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	MenuInflater menuInflater = new MenuInflater(this);
-    	
     	menuInflater.inflate(R.menu.main_menu, menu);
     	
 	    return true;
@@ -302,8 +297,7 @@ public class ScroidWallpaperGallery extends Activity {
     	}
 
     	Intent intent = new Intent(Intent.ACTION_PICK, People.CONTENT_URI);
-    	
-    	this.startActivityForResult(intent, 0);
+    	this.startActivityForResult(intent, PICK_CONTACT);
     }
     
     /* (non-Javadoc)
@@ -333,8 +327,8 @@ public class ScroidWallpaperGallery extends Activity {
 	    
 	    CommunicationChooseDialog dialog = new CommunicationChooseDialog(this, communications, new CommunicationChosenListener() {
 
-			/* (non-Javadoc)
-             * @see de.dan_nrw.boobleftboobright.CommunicationChooseDialog.CommunicationChosenListener#onCommunicationChooen(de.dan_nrw.boobleftboobright.Communication)
+            /* (non-Javadoc)
+             * @see de.dan_nrw.android.scroid.core.communications.CommunicationChooseDialog.CommunicationChosenListener#onCommunicationChosen(de.dan_nrw.android.scroid.Communication)
              */
             @Override
             public void onCommunicationChosen(Communication communication) {
@@ -350,7 +344,6 @@ public class ScroidWallpaperGallery extends Activity {
     	
     	if (communication.getType().equals(Communication.Type.Email)) {
     		Intent intent = new Intent(Intent.ACTION_SEND);
-    		
     		intent.putExtra(Intent.EXTRA_EMAIL, new String[] { communication.getValue() });
     		intent.putExtra(Intent.EXTRA_SUBJECT, getBaseContext().getString(R.string.applicationName));
     		intent.putExtra(Intent.EXTRA_TEXT, String.format(getBaseContext().getString(R.string.recommendEmailPattern), 
@@ -361,7 +354,6 @@ public class ScroidWallpaperGallery extends Activity {
     	}
     	else if (communication.getType().equals(Communication.Type.Mobile)) {
     		Intent intent = new Intent(Intent.ACTION_VIEW);
-
     		intent.putExtra("address", communication.getValue());
     		intent.putExtra("sms_body", String.format(getBaseContext().getString(R.string.recommendSmsPattern), 
     												  wallpaper.getWallpaperUrl()));

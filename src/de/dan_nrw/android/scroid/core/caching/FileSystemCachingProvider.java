@@ -66,7 +66,7 @@ public final class FileSystemCachingProvider implements IPersistentCache {
 	
 	
 	/* (non-Javadoc)
-	 * @see de.dan_nrw.android.boobleftboobright.IPersistentCache#isInCache(java.net.URI)
+	 * @see de.dan_nrw.android.scroid.core.caching.IPersistentCache#isInCache(java.net.URI, java.lang.String)
 	 */
 	@Override
 	public boolean isInCache(URI uri, String prefix) {
@@ -76,7 +76,7 @@ public final class FileSystemCachingProvider implements IPersistentCache {
 	}
 	
 	/* (non-Javadoc)
-	 * @see de.dan_nrw.android.boobleftboobright.IPersistentCache#get(java.net.URI)
+	 * @see de.dan_nrw.android.scroid.core.caching.IPersistentCache#get(java.net.URI, java.lang.String)
 	 */
 	@Override
 	public Bitmap get(URI uri, String prefix) throws IOException {
@@ -100,7 +100,7 @@ public final class FileSystemCachingProvider implements IPersistentCache {
 	}
 
 	/* (non-Javadoc)
-	 * @see de.dan_nrw.android.boobleftboobright.IPersistentCache#put(android.graphics.Bitmap, java.net.URI)
+	 * @see de.dan_nrw.android.scroid.core.caching.IPersistentCache#put(android.graphics.Bitmap, java.net.URI, java.lang.String)
 	 */
 	@Override
 	public void put(Bitmap bitmap, URI uri, String prefix) throws IOException {
@@ -112,7 +112,6 @@ public final class FileSystemCachingProvider implements IPersistentCache {
 		
 		try {
 			stream = this.context.openFileOutput(this.getFileNameForUri(uri, prefix), Context.MODE_PRIVATE); 
-			
 			bitmap.compress(CompressFormat.JPEG, 100, stream);	
 		}
 		finally {

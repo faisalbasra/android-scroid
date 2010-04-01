@@ -62,13 +62,10 @@ final class XmlWallpaperParser implements IWallpaperParser {
 	public List<Wallpaper> parse(String data) throws ParseException {
         try {
         	DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        	
         	Document document = builder.parse(new InputSource(new StringReader(data)));
         	
         	Element element = document.getDocumentElement();
-    		
     		NodeList list = element.getElementsByTagName("wallpaper");
-    		
     		List<Wallpaper> wallpapers = new ArrayList<Wallpaper>();
     		
     		for (int i = 0; i < list.getLength(); i++) {

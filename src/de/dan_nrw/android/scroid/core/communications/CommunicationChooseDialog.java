@@ -64,7 +64,6 @@ public class CommunicationChooseDialog extends Dialog {
         this.setTitle(this.getContext().getText(R.string.recommendToTitleText));
         
         ListView listView = new ListView(this.getContext());
-        
         listView.setAdapter(new CommunicationListAdapter(this.communications, this.getContext()));
         listView.setOnItemClickListener(new OnItemClickListener() {
 

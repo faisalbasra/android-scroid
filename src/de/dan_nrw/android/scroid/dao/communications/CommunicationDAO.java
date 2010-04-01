@@ -59,11 +59,9 @@ public final class CommunicationDAO implements ICommunicationDAO {
 	 */
 	public Communication[] getCommunications(Uri personUri) {
 		List<Communication> communications = new ArrayList<Communication>();
-	    
 		ContentResolver contentResolver = this.context.getContentResolver();
-		
-	    Uri phonesUri = Uri.withAppendedPath(personUri, People.Phones.CONTENT_DIRECTORY); 
 	    
+		Uri phonesUri = Uri.withAppendedPath(personUri, People.Phones.CONTENT_DIRECTORY);
 	    Cursor phonesCursor = contentResolver.query(phonesUri, 
 	    											new String[] { People.Phones.NUMBER }, 
 	    											String.format("%s = ?", People.Phones.TYPE), 
@@ -77,7 +75,6 @@ public final class CommunicationDAO implements ICommunicationDAO {
 	    }
 	    
 	    Uri contactMethodsUri = Uri.withAppendedPath(personUri, People.ContactMethods.CONTENT_DIRECTORY);
-	    
 	    Cursor contactMethodsCursor = contentResolver.query(contactMethodsUri,  
 	    													new String[] { People.ContactMethods.DATA }, 
 	    													String.format("%s = ?", People.ContactMethods.KIND),

@@ -51,10 +51,10 @@ public final class SharedPreferencesSettingsProvider implements ISettingsProvide
 	
     
 	/* (non-Javadoc)
-	 * @see de.dan_nrw.android.boobleftboobright.ISettingsProvider#getCacheSize()
+	 * @see de.dan_nrw.android.scroid.core.settings.ISettingsProvider#getCacheSize()
 	 */
 	@Override
-	public long getCacheSize() {
+    public synchronized long getCacheSize() {
 		if (this.sharedPreferences == null) {
 			this.loadPreferences();
 		}
@@ -63,7 +63,7 @@ public final class SharedPreferencesSettingsProvider implements ISettingsProvide
 	}
 
 	/* (non-Javadoc)
-	 * @see de.dan_nrw.android.boobleftboobright.ISettingsProvider#setCacheSize(long)
+	 * @see de.dan_nrw.android.scroid.core.settings.ISettingsProvider#setCacheSize(long)
 	 */
 	@Override
 	public synchronized void setCacheSize(long cacheSize) {
@@ -71,13 +71,9 @@ public final class SharedPreferencesSettingsProvider implements ISettingsProvide
 			this.loadPreferences();
 		}
 		
-		synchronized(this.sharedPreferences) {
-			Editor editor = this.sharedPreferences.edit();
-			
-			editor.putLong(CACHE_SIZE_KEY, cacheSize);
-			
-			editor.commit();   
-        }
+        Editor editor = this.sharedPreferences.edit();
+        editor.putLong(CACHE_SIZE_KEY, cacheSize);
+        editor.commit();
 	}
 	
 	private synchronized void loadPreferences() {

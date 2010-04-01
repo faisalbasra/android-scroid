@@ -164,7 +164,6 @@ public class WallpaperManager {
 				
 				if (bitmap == null) {
 					bitmap = this.wallpaperDAO.downloadImage(uri);
-		        	
 					this.persistentWallpaperCache.put(bitmap, uri, fileNamePrefix);
 				}
 			}

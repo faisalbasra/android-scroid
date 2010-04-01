@@ -22,7 +22,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 import de.dan_nrw.android.scroid.R;
 
@@ -54,15 +53,9 @@ class AboutDialog extends Dialog {
 	    							this.getContext().getString(R.string.versionInfo)));
 	    
 	    this.setContentView(R.layout.about);
-	    
-	    Button closeButton = (Button)this.findViewById(R.id.aboutCloseButton);
-	    
-	    closeButton.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-            public void onClick(View v) {
-				dismiss();
-            }
-	    });
+    }
+    
+    public void onCloseButtonClicked(View target) {
+        dismiss();
     }
 }
