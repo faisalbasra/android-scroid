@@ -85,16 +85,13 @@ final class CommunicationListAdapter extends BaseAdapter {
 		
 		if (convertView == null) {
 			LayoutInflater layoutInflater = LayoutInflater.from(this.context);
-			
 	    	convertView = layoutInflater.inflate(R.layout.communication, null);	
 	    }
 		
 		ImageView imageView = (ImageView)convertView.findViewById(R.id.communicationImageView);
-		
 		imageView.setImageResource(this.getImageResId(communication));
 		
 		TextView textView = (TextView)convertView.findViewById(R.id.communicationTextView);
-		
 		textView.setText(communication.getValue());
 		
 		return convertView;
