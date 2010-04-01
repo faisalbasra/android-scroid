@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,7 +42,6 @@ import de.dan_nrw.android.util.ui.AlertDialogFactory;
  * @author Daniel Czerwonk
  *
  */
-@SuppressWarnings("deprecation")	// TODO: should be removed when LongTimeRunningOperation is no longer used
 public class WallpaperPreviewActivity extends Activity {
 
 	private Wallpaper wallpaper;
@@ -129,7 +127,7 @@ public class WallpaperPreviewActivity extends Activity {
     }
     
     
-    private class PreparePreviewTask extends LongTimeRunningOperation {
+    private class PreparePreviewTask extends LongTimeRunningOperation<Bitmap> {
 
     	private final Context context;
     	
@@ -144,19 +142,19 @@ public class WallpaperPreviewActivity extends Activity {
 	        this.context = context;
         }
 
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#afterOperationSuccessfullyCompleted(android.os.Message)
+        /* (non-Javadoc)
+         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#afterOperationSuccessfullyCompleted(java.lang.Object)
          */
         @Override
-        public void afterOperationSuccessfullyCompleted(Message message) {
-        	setBitmap((Bitmap)message.obj);
+        public void afterOperationSuccessfullyCompleted(Bitmap result) {
+        	setBitmap(result);
         }
 
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#handleUncaughtException(java.lang.Thread, java.lang.Throwable)
+        /* (non-Javadoc)
+         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#handleUncaughtException(java.lang.Throwable)
          */
         @Override
-        public void handleUncaughtException(Thread thread, Throwable ex) {
+        public void handleUncaughtException(Throwable ex) {
         	if (ex instanceof IOException) {
         		AlertDialogFactory.showErrorMessage(context, R.string.errorText, R.string.downloadException);
         	}
@@ -165,16 +163,16 @@ public class WallpaperPreviewActivity extends Activity {
         	}
         }
 
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#onRun(android.os.Message)
+        /* (non-Javadoc)
+         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#onRun()
          */
         @Override
-        public void onRun(Message message) throws Exception {
-        	message.obj = wallpaperManager.getPreviewImage(wallpaper);
+        public Bitmap onRun() throws Exception {
+        	return wallpaperManager.getPreviewImage(wallpaper);
         }
     }
     
-    private class DownloadAndSetWallpaperTask extends LongTimeRunningOperation {
+    private class DownloadAndSetWallpaperTask extends LongTimeRunningOperation<Bitmap> {
 
     	private final Context context;
 
@@ -189,22 +187,29 @@ public class WallpaperPreviewActivity extends Activity {
 	        this.context = context;
         }
 
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#afterOperationSuccessfullyCompleted(android.os.Message)
+        /* (non-Javadoc)
+         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#afterOperationSuccessfullyCompleted(java.lang.Object)
          */
         @Override
-        public void afterOperationSuccessfullyCompleted(Message message) {
-        	Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            
-            startActivity(intent);
+        public void afterOperationSuccessfullyCompleted(Bitmap result) {
+            try {
+                wallpaperUpdater.setWallpaper(result);
+                
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                
+                startActivity(intent);
+            }
+            catch (IOException e) {
+                AlertDialogFactory.showErrorMessage(context, R.string.errorText, R.string.wallpaperSetFailedErrorMessage);
+            }
         }
 
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#handleUncaughtException(java.lang.Thread, java.lang.Throwable)
+        /* (non-Javadoc)
+         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#handleUncaughtException(java.lang.Throwable)
          */
         @Override
-        public void handleUncaughtException(Thread thread, Throwable ex) {
+        public void handleUncaughtException(Throwable ex) {
         	if (ex instanceof IOException) {
             	AlertDialogFactory.showErrorMessage(context, R.string.errorText, R.string.downloadException);	
         	}
@@ -213,14 +218,12 @@ public class WallpaperPreviewActivity extends Activity {
         	}
         }
 
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#onRun(android.os.Message)
+        /* (non-Javadoc)
+         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#onRun()
          */
         @Override
-        public void onRun(Message message) throws Exception {
-        	Bitmap bitmap = wallpaperManager.getWallpaperImage(wallpaper);
-			
-			wallpaperUpdater.setWallpaper(bitmap);
+        public Bitmap onRun() throws Exception {
+        	return wallpaperManager.getWallpaperImage(wallpaper);
         }
     }
 }

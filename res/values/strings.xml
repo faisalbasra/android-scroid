@@ -35,4 +35,5 @@
 
 <string name="noFavouritesDefinedText">No favourites defined yet.</string>
 <string name="settingsCachingGroupHeader">Caching</string>
+<string name="wallpaperSetFailedErrorMessage">Wallpaper could not be set.</string>
 </resources>

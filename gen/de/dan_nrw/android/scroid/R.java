@@ -91,6 +91,7 @@ public final class R {
         public static final int settingsMenuItemText=0x7f040019;
         public static final int settingsTitle=0x7f04001a;
         public static final int versionInfo=0x7f040001;
+        public static final int wallpaperSetFailedErrorMessage=0x7f040021;
     }
     public static final class style {
         public static final int AboutHeader=0x7f050001;

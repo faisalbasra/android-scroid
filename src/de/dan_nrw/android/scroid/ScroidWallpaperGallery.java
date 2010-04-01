@@ -31,7 +31,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.provider.Contacts.People;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -62,7 +61,6 @@ import de.dan_nrw.android.util.ui.AlertDialogFactory;
  * @author Daniel Czerwonk
  *
  */
-@SuppressWarnings("deprecation")	// TODO: should be removed when LongTimeRunningOperation is no longer used
 public class ScroidWallpaperGallery extends Activity {
 
 	private WallpaperGalleryAdapter wallpaperGalleryAdapter;
@@ -117,12 +115,16 @@ public class ScroidWallpaperGallery extends Activity {
         new FillGalleryTask(progressDialog, this).start();
     }
 	
-	private synchronized void updateGalleryAdapter() {
-		this.wallpaperGalleryAdapter = new WallpaperGalleryAdapter(this, this.wallpaperManager.getWallpapers(), wallpaperManager);
-		
-		Gallery gallery = (Gallery)this.findViewById(R.id.gallery);
-		gallery.setAdapter(this.wallpaperGalleryAdapter);
+	private void updateGalleryAdapter() {
+		this.updateGalleryAdapter(this.wallpaperManager.getWallpapers());
 	}
+	
+    private synchronized void updateGalleryAdapter(Wallpaper[] wallpapers) {
+        this.wallpaperGalleryAdapter = new WallpaperGalleryAdapter(this, wallpapers, this.wallpaperManager);
+        
+        Gallery gallery = (Gallery)this.findViewById(R.id.gallery);
+        gallery.setAdapter(this.wallpaperGalleryAdapter);
+    }
 	
 	private void initGallery() {
 		Gallery gallery = (Gallery)this.findViewById(R.id.gallery);
@@ -364,7 +366,7 @@ public class ScroidWallpaperGallery extends Activity {
     }
 
     
-    private class FillGalleryTask extends LongTimeRunningOperation {
+    private class FillGalleryTask extends LongTimeRunningOperation<Wallpaper[]> {
 
     	private final Context context;
     	
@@ -379,23 +381,19 @@ public class ScroidWallpaperGallery extends Activity {
 	        this.context = context;
         }
 
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#afterOperationSuccessfullyCompleted(android.os.Message)
+        /* (non-Javadoc)
+         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#afterOperationSuccessfullyCompleted(java.lang.Object)
          */
         @Override
-        public void afterOperationSuccessfullyCompleted(Message message) {
-        	if (message.obj == null || !(message.obj instanceof Wallpaper[])) {
-        		return;
-        	}
-        	
-        	updateGalleryAdapter();
+        public void afterOperationSuccessfullyCompleted(Wallpaper[] result) {
+        	updateGalleryAdapter(result);
         }
 
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#handleUncaughtException(java.lang.Thread, java.lang.Throwable)
+        /* (non-Javadoc)
+         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#handleUncaughtException(java.lang.Throwable)
          */
         @Override
-        public void handleUncaughtException(Thread thread, Throwable ex) {
+        public void handleUncaughtException(Throwable ex) {
         	if (ex instanceof WallpaperListReceivingException) {
         		AlertDialogFactory.showErrorMessage(this.context, 
         											R.string.errorText, 
@@ -413,11 +411,11 @@ public class ScroidWallpaperGallery extends Activity {
         	}
         }
 
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#onRun(android.os.Message)
+        /* (non-Javadoc)
+         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#onRun()
          */
         @Override
-        public void onRun(Message message) throws Exception {
+        public Wallpaper[] onRun() throws Exception {
         	// retrieving available wallpapers from server
         	wallpaperManager.loadAvailableWallpapers(getBaseContext());
         	
@@ -426,7 +424,7 @@ public class ScroidWallpaperGallery extends Activity {
             // preloading first 3 thumbs
             preloadThumbs(wallpapers, 0, 3);
             
-            message.obj = wallpapers;
+            return wallpapers;
         }
     }
 

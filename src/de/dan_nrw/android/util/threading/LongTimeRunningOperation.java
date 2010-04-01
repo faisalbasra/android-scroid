@@ -18,24 +18,18 @@
  */
 package de.dan_nrw.android.util.threading;
 
-import java.lang.Thread.UncaughtExceptionHandler;
-
 import android.app.Dialog;
-import android.os.Handler;
-import android.os.Message;
+import android.os.AsyncTask;
 
 
 /**
  * @author Daniel Czerwonk
- * @deprecated This class will be replaced by AsyncTask (which is part of Android SDK 1.5)
- * @see android.os.AsyncTask 
  */
-public abstract class LongTimeRunningOperation {
+public abstract class LongTimeRunningOperation<T> {
 
 	private final Dialog progressDialog;
-	private final Thread thread;
-	private final Handler handler;
-
+	private final AsyncTask<Void, Void, T> asyncTask;
+	
 	
 	/**
 	 * Creates a new instance of LongTimeRunningOperation.
@@ -45,86 +39,67 @@ public abstract class LongTimeRunningOperation {
 	    super();
 	    
 	    this.progressDialog = progressDialog;
-	    
-	    this.handler = new Handler() {
-
-			/* (non-Javadoc)
-             * @see android.os.Handler#handleMessage(android.os.Message)
-             */
-            @Override
-            public void handleMessage(Message msg) {
-	            if (msg.obj != null && msg.obj instanceof Throwable) {
-	            	handleUncaughtException(thread, (Throwable)msg.obj);
-	            }
-	            else {
-	            	afterOperationSuccessfullyCompleted(msg);
-	            }
-            }
-	    };
-	    
-	    this.thread = new Thread(new Runnable() {
-	    	
-	    	/* (non-Javadoc)
-             * @see java.lang.Thread#run()
-             */
-            @Override
-            public void run() {
-	            Message message = new Message();
-            	
-            	try {
-	            	onRun(message);
-	            }
-	            catch (Throwable ex) {
-	            	message.obj = ex;
-	            }
-	            finally {
-	            	progressDialog.dismiss();
-	            }
-	            
-	            handler.sendMessage(message);
-            }
-	    });
-	    
-	    this.thread.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-
-			/* (non-Javadoc)
-             * @see java.lang.Thread.UncaughtExceptionHandler#uncaughtException(java.lang.Thread, java.lang.Throwable)
-             */
-            @Override
-            public void uncaughtException(Thread thread, Throwable ex) {
-            	uncaughtException(thread, ex);
-            }
-	    });
+	    this.asyncTask = new InnerAsyncTask();
     }
-    
+
     /**
-     * Method handling uncaught exceptions (marshalled in UI thread)
+     * Method handling uncaught exceptions (marshaled in UI thread)
      * @param thread
      * @param ex
      */
-    public abstract void handleUncaughtException(Thread thread, Throwable ex);
+    public abstract void handleUncaughtException(Throwable ex);
     
     /**
      * Method executed after child thread completed successfully
      * @param message Message sent by child thread
      */
-    public void afterOperationSuccessfullyCompleted(Message message) {
+    public void afterOperationSuccessfullyCompleted(T result) {
     	// HOOK
     }
     
     /**
-     * Method executed in child thread
+     * Method executed in background thread
      * @param message
      * @throws Exception
      */
-    public abstract void onRun(Message message) throws Exception;
+    public abstract T onRun() throws Exception;
     
     /**
      * Method for starting operation 
      */
     public final void start() {
-    	this.thread.start();
+    	this.asyncTask.execute();
     	
     	this.progressDialog.show();
+    }
+    
+    private class InnerAsyncTask extends AsyncTask<Void, Void, T> {
+
+        private Throwable exception;
+        
+        
+        @Override
+        protected T doInBackground(Void... params) {
+            try {
+                return onRun();
+            }
+            catch (Exception e) {
+                this.exception = e;
+            }
+            
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(T result) {
+            progressDialog.dismiss();
+            
+            if (this.exception != null) {
+                handleUncaughtException(this.exception);
+            }
+            else {
+                afterOperationSuccessfullyCompleted(result);
+            }
+        }
     }
 }

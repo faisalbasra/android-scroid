@@ -28,13 +28,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -55,7 +53,6 @@ import de.dan_nrw.android.util.ui.AlertDialogFactory;
  * @author Daniel Czerwonk
  *
  */
-@SuppressWarnings("deprecation")	// TODO: should be removed when LongTimeRunningOperation is no longer used
 public class FavouriteListActivity extends Activity {
 
 	private static List<Favourite> favourites;
@@ -191,7 +188,7 @@ public class FavouriteListActivity extends Activity {
     }
     
     
-    private class InitFavouriteListTask extends LongTimeRunningOperation {
+    private class InitFavouriteListTask extends LongTimeRunningOperation<List<Favourite>> {
     	
     	private final Context context;
     	
@@ -206,19 +203,12 @@ public class FavouriteListActivity extends Activity {
 	        this.context = context;
         }
 
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#afterOperationSuccessfullyCompleted(android.os.Message)
+        /* (non-Javadoc)
+         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#afterOperationSuccessfullyCompleted(java.lang.Object)
          */
         @Override
-        @SuppressWarnings("unchecked")
-        public void afterOperationSuccessfullyCompleted(Message message) {
-        	if (!(message.obj instanceof List)) {
-        		return;
-        	}
-        	
-        	List<Favourite> tempFavourites = (List<Favourite>)message.obj;
-        	
-        	if (tempFavourites.size() < 1) {
+        public void afterOperationSuccessfullyCompleted(List<Favourite> result) {
+        	if (result.size() < 1) {
         		AlertDialogFactory.showInfoMessage(this.context, R.string.infoText, R.string.noFavouritesDefinedText);
         		
         		finish();
@@ -226,16 +216,16 @@ public class FavouriteListActivity extends Activity {
         		return;
         	}
         	
-        	favourites = tempFavourites;
+        	favourites = result;
         	
         	updateFavouritesAdapter();
         }
 
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#handleUncaughtException(java.lang.Thread, java.lang.Throwable)
+        /* (non-Javadoc)
+         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#handleUncaughtException(java.lang.Throwable)
          */
         @Override
-        public void handleUncaughtException(Thread thread, Throwable ex) {
+        public void handleUncaughtException(Throwable ex) {
         	if (ex instanceof IOException) {
             	AlertDialogFactory.showErrorMessage(this.context, R.string.errorText, R.string.downloadException);
             	
@@ -246,11 +236,11 @@ public class FavouriteListActivity extends Activity {
         	}
         }
 
-		/* (non-Javadoc)
-         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#onRun(android.os.Message)
+        /* (non-Javadoc)
+         * @see de.dan_nrw.android.util.threading.LongTimeRunningOperation#onRun()
          */
         @Override
-        public void onRun(Message message) throws Exception {
+        public List<Favourite> onRun() throws Exception {
         	List<Favourite> favourites = new ArrayList<Favourite>();
         	
         	for (Favourite favourite : favouriteDAO.getAll()) {
@@ -261,13 +251,12 @@ public class FavouriteListActivity extends Activity {
         		}
         		
         		favourite.setWallpaper(wallpaper);
-        		
         		favourites.add(favourite);
         		
         		wallpaperManager.getThumbImage(wallpaper);
         	}
         	
-        	message.obj = favourites;
+        	return favourites;
         }
     }
 }
